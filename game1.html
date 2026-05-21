@@ -2,22 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>8-Ball Pool - Professional HTML5</title>
     <style>
         :root {
             --bg: #1a0a00;
-            --panel-bg: rgba(20, 10, 0, 0.95);
+            --panel-bg: rgba(18, 8, 0, 0.96);
             --gold: #c8a45c;
             --gold-light: #e0c878;
             --text: #e8dcc8;
-            --text-bright: #fff;
             --accent: #d4a030;
-            --danger: #c0392b;
-            --success: #27ae60;
             --felt: #1a6b3c;
-            --rail: #5c3a1e;
-            --rail-dark: #3a1f0a;
         }
 
         * {
@@ -25,22 +20,25 @@
             padding: 0;
             box-sizing: border-box;
         }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            background: #0d0d0d;
-            background-image: radial-gradient(ellipse at center, #1a1a0a 0%, #0a0a00 60%, #000 100%);
+            background: #0a0a04;
+            background-image: radial-gradient(ellipse at center, #1a1a0c 0%, #0a0a02 60%, #000 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
             font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            touch-action: none;
         }
 
         #game-container {
@@ -56,15 +54,16 @@
 
         canvas {
             display: block;
-            border-radius: 12px;
-            box-shadow: 0 0 80px rgba(200, 150, 50, 0.25), 0 0 200px rgba(0, 0, 0, 0.7),
-                0 20px 60px rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 70px rgba(180, 130, 40, 0.3), 0 0 180px rgba(0, 0, 0, 0.75),
+                0 16px 50px rgba(0, 0, 0, 0.8);
             cursor: crosshair;
             max-width: 100%;
             max-height: 100%;
+            background: #000;
         }
 
-        /* Overlay panels */
+        /* Overlays */
         .overlay {
             position: absolute;
             top: 50%;
@@ -73,120 +72,98 @@
             background: var(--panel-bg);
             border: 2px solid var(--gold);
             border-radius: 16px;
-            padding: 30px 36px;
+            padding: 28px 32px;
             text-align: center;
             color: var(--text);
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(200, 150, 50, 0.2);
-            z-index: 10;
-            min-width: 280px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 0 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(200, 150, 50, 0.25);
+            z-index: 20;
+            min-width: 260px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease, pointer-events 0s;
+            pointer-events: auto;
         }
         .overlay.hidden {
             opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0.9);
+            pointer-events: none !important;
+            transform: translate(-50%, -50%) scale(0.88);
         }
         .overlay h1 {
-            font-size: 2.2em;
+            font-size: 2em;
             color: var(--gold-light);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(200, 160, 60, 0.5);
+            text-shadow: 0 0 20px rgba(200, 150, 50, 0.5);
         }
         .overlay h2 {
-            font-size: 1.4em;
-            color: var(--text-bright);
-            margin-bottom: 16px;
+            font-size: 1.3em;
+            color: #fff;
+            margin-bottom: 14px;
             letter-spacing: 1px;
         }
-        .overlay h3 {
-            font-size: 1em;
-            color: var(--gold);
-            margin-bottom: 12px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-        .overlay p {
-            margin: 6px 0;
-            font-size: 0.95em;
-            color: #b8a890;
-        }
-        .overlay button,
-        .overlay .btn {
+        .overlay button {
             display: inline-block;
-            margin: 8px 6px;
-            padding: 12px 28px;
-            font-size: 1em;
+            margin: 7px 5px;
+            padding: 11px 26px;
+            font-size: 0.95em;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             border: 2px solid var(--gold);
-            background: linear-gradient(180deg, rgba(180, 130, 40, 0.3) 0%, rgba(100, 60, 20, 0.4) 100%);
-            color: var(--text-bright);
+            background: linear-gradient(180deg, rgba(170, 120, 35, 0.35) 0%, rgba(90, 50, 15, 0.45) 100%);
+            color: #fff;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: uppercase;
             white-space: nowrap;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        .overlay button:hover,
-        .overlay .btn:hover {
-            background: linear-gradient(180deg, rgba(220, 170, 60, 0.5) 0%, rgba(140, 90, 30, 0.5) 100%);
+        .overlay button:hover {
+            background: linear-gradient(180deg, rgba(210, 160, 55, 0.55) 0%, rgba(130, 80, 25, 0.55) 100%);
             border-color: var(--gold-light);
-            box-shadow: 0 0 20px rgba(200, 150, 50, 0.4);
-            transform: translateY(-1px);
+            box-shadow: 0 0 22px rgba(200, 150, 50, 0.45);
+            transform: translateY(-2px);
         }
-        .overlay button:active,
-        .overlay .btn:active {
-            transform: scale(0.96);
-            transition: transform 0.1s;
+        .overlay button:active {
+            transform: scale(0.94);
+            transition: transform 0.08s;
         }
         .overlay button.accent {
-            background: linear-gradient(180deg, rgba(200, 140, 30, 0.6) 0%, rgba(140, 80, 20, 0.6) 100%);
+            background: linear-gradient(180deg, rgba(190, 135, 25, 0.65) 0%, rgba(130, 75, 15, 0.65) 100%);
             border-color: #e0b840;
         }
-        .overlay button.danger {
-            border-color: #c0392b;
-            color: #e88;
-            background: linear-gradient(180deg, rgba(180, 40, 30, 0.3) 0%, rgba(80, 20, 10, 0.4) 100%);
-        }
         .overlay button.small {
-            padding: 8px 18px;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
+            padding: 7px 16px;
+            font-size: 0.8em;
         }
 
-        /* Settings rows */
         .setting-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
-            gap: 16px;
-            font-size: 0.9em;
+            margin: 9px 0;
+            gap: 12px;
+            font-size: 0.88em;
         }
         .setting-row label {
             color: #c8b898;
             white-space: nowrap;
         }
-        .setting-row select,
-        .setting-row input[type="range"] {
-            padding: 6px 10px;
+        .setting-row select {
+            padding: 5px 8px;
             border-radius: 6px;
             border: 1px solid #5a4a30;
             background: #1a1008;
             color: #d8c8a8;
-            font-size: 0.9em;
+            font-size: 0.88em;
             cursor: pointer;
-        }
-        .setting-row select {
-            min-width: 120px;
+            min-width: 110px;
         }
         .toggle-switch {
             position: relative;
-            width: 48px;
-            height: 26px;
+            width: 44px;
+            height: 24px;
             flex-shrink: 0;
         }
         .toggle-switch input {
@@ -201,7 +178,7 @@
             right: 0;
             bottom: 0;
             background: #3a2a15;
-            border-radius: 26px;
+            border-radius: 24px;
             cursor: pointer;
             transition: 0.3s;
             border: 1px solid #5a4a30;
@@ -209,8 +186,8 @@
         .toggle-slider:before {
             content: '';
             position: absolute;
-            height: 20px;
-            width: 20px;
+            height: 18px;
+            width: 18px;
             left: 2px;
             top: 2px;
             background: #8a7a5a;
@@ -222,35 +199,35 @@
             border-color: #5a9a4a;
         }
         input:checked+.toggle-slider:before {
-            transform: translateX(22px);
+            transform: translateX(20px);
             background: #b8d8a0;
         }
 
         /* HUD */
         #hud {
             position: absolute;
-            top: 8px;
+            top: 6px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 16px;
+            gap: 10px;
             align-items: center;
-            z-index: 5;
+            z-index: 8;
             pointer-events: none;
             flex-wrap: wrap;
             justify-content: center;
         }
         .hud-item {
-            background: rgba(10, 5, 0, 0.8);
+            background: rgba(8, 4, 0, 0.82);
             border: 1px solid rgba(180, 140, 80, 0.5);
-            border-radius: 20px;
-            padding: 6px 16px;
+            border-radius: 18px;
+            padding: 5px 14px;
             color: #e8d8b8;
-            font-size: 0.85em;
+            font-size: 0.78em;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             white-space: nowrap;
-            text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
         }
         .hud-item.turn {
             border-color: #e0b840;
@@ -260,11 +237,11 @@
             0%,
             100% {
                 border-color: #e0b840;
-                box-shadow: 0 0 8px rgba(200, 150, 40, 0.3);
+                box-shadow: 0 0 6px rgba(200, 150, 40, 0.3);
             }
             50% {
                 border-color: #ffd060;
-                box-shadow: 0 0 18px rgba(240, 190, 60, 0.6);
+                box-shadow: 0 0 16px rgba(240, 190, 60, 0.6);
             }
         }
         .hud-item.player1 {
@@ -274,93 +251,73 @@
             border-left: 3px solid #d94a4a;
         }
 
-        /* Power meter on canvas */
         #power-indicator {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            z-index: 5;
+            gap: 3px;
+            z-index: 8;
             pointer-events: none;
         }
         .power-label {
             color: #c8b898;
-            font-size: 0.7em;
+            font-size: 0.65em;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
         .power-bar-outer {
-            width: 10px;
-            height: 120px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(180, 140, 80, 0.5);
-            border-radius: 6px;
+            width: 8px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(180, 140, 80, 0.45);
+            border-radius: 5px;
             overflow: hidden;
-            position: relative;
         }
         .power-bar-inner {
-            position: absolute;
-            bottom: 0;
             width: 100%;
             background: linear-gradient(to top, #4a4, #fa0, #f44);
-            border-radius: 5px;
-            transition: height 0.05s linear;
+            border-radius: 4px;
+            transition: height 0.04s linear;
+            position: absolute;
+            bottom: 0;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .overlay {
-                padding: 20px 22px;
-                min-width: 240px;
+                padding: 18px 20px;
+                min-width: 220px;
                 border-radius: 12px;
             }
             .overlay h1 {
-                font-size: 1.5em;
+                font-size: 1.4em;
             }
             .overlay h2 {
-                font-size: 1.1em;
+                font-size: 1em;
             }
             .overlay button {
-                padding: 10px 20px;
-                font-size: 0.85em;
-                margin: 5px 4px;
+                padding: 9px 18px;
+                font-size: 0.8em;
+                margin: 5px 3px;
             }
             #hud {
-                top: 4px;
-                gap: 8px;
+                top: 3px;
+                gap: 5px;
             }
             .hud-item {
-                padding: 4px 10px;
-                font-size: 0.7em;
+                padding: 3px 8px;
+                font-size: 0.68em;
                 border-radius: 14px;
             }
             #power-indicator {
-                bottom: 16px;
-                right: 12px;
+                bottom: 10px;
+                right: 8px;
             }
             .power-bar-outer {
-                width: 8px;
-                height: 80px;
-            }
-        }
-        @media (max-width: 380px) {
-            .overlay {
-                padding: 14px 16px;
-                min-width: 200px;
-                border-radius: 10px;
-            }
-            .overlay h1 {
-                font-size: 1.2em;
-            }
-            .overlay h2 {
-                font-size: 0.95em;
-            }
-            .overlay button {
-                padding: 8px 14px;
-                font-size: 0.75em;
+                width: 6px;
+                height: 65px;
             }
         }
     </style>
@@ -369,7 +326,6 @@
     <div id="game-container">
         <canvas id="poolCanvas"></canvas>
 
-        <!-- HUD -->
         <div id="hud">
             <span class="hud-item player1" id="hudP1">🎱 P1: 0</span>
             <span class="hud-item turn" id="hudTurn">▶ Player 1</span>
@@ -377,23 +333,20 @@
             <span class="hud-item" id="hudFoul" style="display:none;color:#f88;">⚠ Foul</span>
         </div>
 
-        <!-- Power indicator (desktop helper) -->
         <div id="power-indicator">
             <span class="power-label">Power</span>
             <div class="power-bar-outer"><div class="power-bar-inner" id="powerBarFill" style="height:0%;"></div></div>
         </div>
 
-        <!-- Main Menu -->
         <div class="overlay" id="mainMenu">
             <h1>🎱 8-BALL POOL</h1>
-            <p style="color:#c8a45c;margin-bottom:16px;">Professional Edition</p>
-            <button class="accent" id="btnPractice">🏋️ Practice Mode</button><br>
-            <button id="btnPvP">👥 Player vs Player</button><br>
-            <button id="btnAI">🤖 vs AI Opponent</button><br>
+            <p style="color:#c8a45c;margin-bottom:14px;">Professional Edition</p>
+            <button class="accent" id="btnPractice">🏋️ Practice</button>
+            <button id="btnPvP">👥 Player vs Player</button>
+            <button id="btnAI">🤖 vs AI</button>
             <button class="small" id="btnSettings">⚙️ Settings</button>
         </div>
 
-        <!-- Settings Menu -->
         <div class="overlay hidden" id="settingsMenu">
             <h2>⚙️ Settings</h2>
             <div class="setting-row"><label>AI Difficulty</label>
@@ -402,7 +355,7 @@
                 <label class="toggle-switch"><input type="checkbox" id="soundToggle" checked><span class="toggle-slider"></span></label></div>
             <div class="setting-row"><label>Music</label>
                 <label class="toggle-switch"><input type="checkbox" id="musicToggle"><span class="toggle-slider"></span></label></div>
-            <div class="setting-row"><label>Show Guide Line</label>
+            <div class="setting-row"><label>Guide Line</label>
                 <label class="toggle-switch"><input type="checkbox" id="guideToggle" checked><span class="toggle-slider"></span></label></div>
             <div class="setting-row"><label>Table Theme</label>
                 <select id="tableTheme"><option value="classic">Classic Green</option><option value="blue">Tournament Blue</option><option value="red">Burgundy</option></select></div>
@@ -410,148 +363,108 @@
             <button id="btnSettingsBack">← Back</button>
         </div>
 
-        <!-- Pause Menu -->
         <div class="overlay hidden" id="pauseMenu">
             <h2>⏸️ Paused</h2>
-            <button id="btnResume">▶ Resume</button><br>
-            <button id="btnRestart">🔄 Restart</button><br>
-            <button class="danger" id="btnQuit">🚪 Quit to Menu</button>
+            <button id="btnResume">▶ Resume</button>
+            <button id="btnRestart">🔄 Restart</button>
+            <button id="btnQuit" style="border-color:#c0392b;color:#e88;">🚪 Quit</button>
         </div>
 
-        <!-- Game Over -->
         <div class="overlay hidden" id="gameOverMenu">
             <h2 id="gameOverTitle">🏆 Game Over</h2>
-            <p id="gameOverMsg" style="font-size:1.1em;color:#e0c878;"></p>
-            <button class="accent" id="btnPlayAgain">🔄 Play Again</button><br>
+            <p id="gameOverMsg" style="font-size:1.05em;color:#e0c878;"></p>
+            <button class="accent" id="btnPlayAgain">🔄 Play Again</button>
             <button id="btnGoMenu">🏠 Main Menu</button>
         </div>
     </div>
 
     <script>
-        // ============================================================
-        //  8-BALL POOL - Professional HTML5 Browser Game
-        //  Complete physics engine, AI opponent, 8-ball rules
-        // ============================================================
-
         (function() {
-            // --- DOM Elements ---
+            // ──────────────────────────────────────
+            // DOM refs
+            // ──────────────────────────────────────
             const canvas = document.getElementById('poolCanvas');
             const ctx = canvas.getContext('2d');
             const container = document.getElementById('game-container');
 
-            // --- Constants ---
-            const TABLE_WIDTH = 800; // Internal units for playing surface
-            const TABLE_HEIGHT = 400;
-            const RAIL_WIDTH = 42;
-            const BALL_RADIUS = 13;
-            const POCKET_RADIUS = 22;
-            const CORNER_POCKET_RADIUS = 24;
-            const FRICTION = 0.985; // Per-frame friction (scaled by delta)
-            const CUSHION_RESTITUTION = 0.7;
-            const BALL_RESTITUTION = 0.92;
+            // ──────────────────────────────────────
+            // Constants
+            // ──────────────────────────────────────
+            const TABLE_W = 800;
+            const TABLE_H = 400;
+            const RAIL_W = 42;
+            const BALL_R = 13;
+            const POCKET_R = 22;
+            const CORNER_POCKET_R = 24;
+            const FRICTION = 0.985;
+            const CUSHION_REST = 0.7;
+            const BALL_REST = 0.92;
             const MAX_POWER = 22;
             const MIN_POWER = 1.5;
-            const GRAVITY = 0; // Top-down, no gravity needed
-            const POCKET_PULL_DIST = 28;
+            const POCKET_PULL = 28;
 
-            // --- Audio Manager (Web Audio API procedural sounds) ---
+            // ──────────────────────────────────────
+            // Audio – procedural Web Audio
+            // ──────────────────────────────────────
             class AudioManager {
                 constructor() {
                     this.enabled = true;
-                    this.musicEnabled = false;
+                    this.musicOn = false;
                     this.ctx = null;
-                    this.musicOsc = null;
-                    this.musicGain = null;
-                    this.musicInterval = null;
-                    try {
-                        this.ctx = new(window.AudioContext || window.webkitAudioContext)();
-                    } catch (e) {
-                        this.enabled = false;
-                    }
+                    this.musicTimer = null;
+                    try { this.ctx = new(window.AudioContext || window.webkitAudioContext)(); } catch (e) { this
+                            .enabled = false; }
                 }
-
-                play(freq, type, duration, vol = 0.15, decay = true) {
+                play(freq, type, dur, vol = 0.14, decay = true) {
                     if (!this.enabled || !this.ctx) return;
                     try {
                         const t = this.ctx.currentTime;
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = type;
-                        osc.frequency.setValueAtTime(freq, t);
-                        gain.gain.setValueAtTime(vol, t);
-                        if (decay) gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
-                        else gain.gain.setValueAtTime(vol, t + duration);
-                        osc.connect(gain);
-                        gain.connect(this.ctx.destination);
-                        osc.start(t);
-                        osc.stop(t + duration);
-                    } catch (e) { /* silent */ }
+                        const o = this.ctx.createOscillator();
+                        const g = this.ctx.createGain();
+                        o.type = type;
+                        o.frequency.setValueAtTime(freq, t);
+                        g.gain.setValueAtTime(vol, t);
+                        if (decay) g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+                        else g.gain.setValueAtTime(vol, t + dur);
+                        o.connect(g);
+                        g.connect(this.ctx.destination);
+                        o.start(t);
+                        o.stop(t + dur);
+                    } catch (e) {}
                 }
-
-                cueStrike(power) {
-                    const vol = 0.12 + power / MAX_POWER * 0.2;
-                    this.play(180, 'square', 0.08, vol);
-                    setTimeout(() => this.play(60, 'triangle', 0.15, vol * 0.7), 30);
+                cueStrike(pow) {
+                    const v = 0.1 + pow / MAX_POWER * 0.18;
+                    this.play(200, 'square', 0.07, v);
+                    setTimeout(() => this.play(55, 'triangle', 0.14, v * 0.65), 25);
                 }
-
-                ballHit(force) {
-                    const vol = Math.min(0.18, force * 0.03);
-                    this.play(300 + force * 40, 'sine', 0.06, vol);
-                }
-
-                pocketSound() {
-                    this.play(80, 'triangle', 0.25, 0.2);
-                    setTimeout(() => this.play(40, 'sine', 0.3, 0.15), 80);
-                }
-
-                cushionBounce() {
-                    this.play(100, 'triangle', 0.06, 0.06);
-                }
-
-                foulSound() {
-                    this.play(50, 'sawtooth', 0.4, 0.15);
-                }
-
-                victorySound() {
-                    this.play(523, 'sine', 0.2, 0.18, false);
-                    setTimeout(() => this.play(659, 'sine', 0.2, 0.18, false), 150);
-                    setTimeout(() => this.play(784, 'sine', 0.3, 0.25, false), 300);
-                }
-
+                ballHit(f) { this.play(280 + f * 35, 'sine', 0.05, Math.min(0.16, f * 0.025)); }
+                pocket() { this.play(70, 'triangle', 0.28, 0.18);
+                    setTimeout(() => this.play(38, 'sine', 0.35, 0.14), 70); }
+                cushion() { this.play(90, 'triangle', 0.05, 0.05); }
+                foul() { this.play(48, 'sawtooth', 0.45, 0.14); }
+                victory() { this.play(523, 'sine', 0.18, 0.16, false);
+                    setTimeout(() => this.play(659, 'sine', 0.18, 0.16, false), 140);
+                    setTimeout(() => this.play(784, 'sine', 0.28, 0.22, false), 280); }
                 startMusic() {
-                    if (!this.musicEnabled || !this.ctx || this.musicInterval) return;
+                    if (!this.musicOn || !this.ctx || this.musicTimer) return;
                     const notes = [130.81, 146.83, 164.81, 174.61, 196, 220, 246.94, 261.63];
-                    let idx = 0;
-                    const playNote = () => {
-                        if (!this.musicEnabled) return;
-                        this.play(notes[idx % notes.length], 'sine', 0.8, 0.03, true);
-                        idx++;
-                    };
-                    this.musicInterval = setInterval(playNote, 1200);
-                    playNote();
+                    let i = 0;
+                    const fn = () => { if (!this.musicOn) return;
+                        this.play(notes[i % notes.length], 'sine', 0.9, 0.025, true);
+                        i++; };
+                    this.musicTimer = setInterval(fn, 1300);
+                    fn();
                 }
-
-                stopMusic() {
-                    if (this.musicInterval) {
-                        clearInterval(this.musicInterval);
-                        this.musicInterval = null;
-                    }
-                }
-
-                toggleSound() {
-                    this.enabled = !this.enabled;
-                    if (!this.enabled) this.stopMusic();
-                    return this.enabled;
-                }
-                toggleMusic() {
-                    this.musicEnabled = !this.musicEnabled;
-                    if (this.musicEnabled) this.startMusic();
-                    else this.stopMusic();
-                    return this.musicEnabled;
-                }
+                stopMusic() { if (this.musicTimer) { clearInterval(this.musicTimer);
+                        this.musicTimer = null; } }
+                toggleSound() { this.enabled = !this.enabled; if (!this.enabled) this.stopMusic(); return this.enabled; }
+                toggleMusic() { this.musicOn = !this.musicOn; if (this.musicOn) this.startMusic(); else this.stopMusic
+                    (); return this.musicOn; }
             }
 
-            // --- Vector Utilities ---
+            // ──────────────────────────────────────
+            // Vec2
+            // ──────────────────────────────────────
             class Vec2 {
                 constructor(x = 0, y = 0) { this.x = x;
                     this.y = y; }
@@ -567,178 +480,18 @@
                 scale(s) { this.x *= s;
                     this.y *= s; return this; }
                 dot(v) { return this.x * v.x + this.y * v.y; }
-                length() { return Math.sqrt(this.x * this.x + this.y * this.y); }
-                lengthSq() { return this.x * this.x + this.y * this.y; }
-                normalize() {
-                    const len = this.length();
-                    if (len > 0.0001) { this.x /= len;
-                        this.y /= len; }
-                    return this;
-                }
+                len() { return Math.sqrt(this.x * this.x + this.y * this.y); }
+                lenSq() { return this.x * this.x + this.y * this.y; }
+                norm() { const l = this.len(); if (l > 1e-6) { this.x /= l;
+                        this.y /= l; } return this; }
                 dist(v) { return Math.sqrt((this.x - v.x) ** 2 + (this.y - v.y) ** 2); }
                 angle() { return Math.atan2(this.y, this.x); }
                 static fromAngle(a) { return new Vec2(Math.cos(a), Math.sin(a)); }
             }
 
-            // --- Ball Class ---
-            class Ball {
-                constructor(x, y, number, isCue = false) {
-                    this.pos = new Vec2(x, y);
-                    this.vel = new Vec2(0, 0);
-                    this.radius = BALL_RADIUS;
-                    this.number = number;
-                    this.isCue = isCue;
-                    this.pocketed = false;
-                    this.isSolid = number >= 1 && number <= 7;
-                    this.isStripe = number >= 9 && number <= 15;
-                    this.isEight = number === 8;
-                    this.spin = 0; // Simple spin factor
-                    this.lastCollision = null;
-                    this.trailPositions = [];
-                }
-
-                get color() {
-                    if (this.isCue) return '#f8f8f0';
-                    if (this.isEight) return '#111';
-                    if (this.isSolid) {
-                        const colors = ['#f4d03f', '#2471a3', '#c0392b', '#2e4053', '#f39c12',
-                            '#1a5c2a', '#8b1a1a'
-                        ];
-                        return colors[this.number - 1] || '#888';
-                    }
-                    if (this.isStripe) {
-                        const colors = ['#f7dc6f', '#2e86c1', '#e74c3c', '#3d2b6b', '#f0b27a',
-                            '#27ae60', '#b03a2e'
-                        ];
-                        return colors[this.number - 9] || '#aaa';
-                    }
-                    return '#ccc';
-                }
-
-                get stripeColor() {
-                    if (this.isStripe) {
-                        const colors = ['#fff', '#fff', '#fff', '#e8d8f0', '#fff', '#fff', '#fff'];
-                        return colors[this.number - 9] || '#fff';
-                    }
-                    return '#fff';
-                }
-
-                update(dt) {
-                    if (this.pocketed) return;
-                    // Apply friction (scaled by delta time factor)
-                    const frictionFactor = Math.pow(FRICTION, dt * 60);
-                    this.vel.scale(frictionFactor);
-                    // Stop very slow movement
-                    if (this.vel.length() < 0.08) {
-                        this.vel.set(0, 0);
-                    }
-                    // Update position
-                    this.pos.add(this.vel.clone().scale(dt));
-                    // Trail for particles
-                    if (this.vel.length() > 2) {
-                        this.trailPositions.push(this.pos.clone());
-                        if (this.trailPositions.length > 5) this.trailPositions.shift();
-                    } else {
-                        this.trailPositions = [];
-                    }
-                }
-
-                draw(ctx, scale, offsetX, offsetY) {
-                    if (this.pocketed) return;
-                    const sx = this.pos.x * scale + offsetX;
-                    const sy = this.pos.y * scale + offsetY;
-                    const r = this.radius * scale;
-
-                    // Shadow
-                    ctx.save();
-                    ctx.fillStyle = 'rgba(0,0,0,0.45)';
-                    ctx.beginPath();
-                    ctx.arc(sx + r * 0.15, sy + r * 0.2, r, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-
-                    // Ball body with gradient
-                    const grad = ctx.createRadialGradient(sx - r * 0.3, sy - r * 0.35, r * 0.1, sx, sy, r);
-                    if (this.isCue) {
-                        grad.addColorStop(0, '#ffffff');
-                        grad.addColorStop(0.5, '#f0efe8');
-                        grad.addColorStop(0.85, '#d8d6d0');
-                        grad.addColorStop(1, '#b8b5ae');
-                    } else if (this.isEight) {
-                        grad.addColorStop(0, '#444');
-                        grad.addColorStop(0.4, '#1a1a1a');
-                        grad.addColorStop(0.85, '#000');
-                        grad.addColorStop(1, '#111');
-                    } else if (this.isSolid) {
-                        const c = this.color;
-                        grad.addColorStop(0, this._lighten(c, 50));
-                        grad.addColorStop(0.5, c);
-                        grad.addColorStop(0.85, this._darken(c, 40));
-                        grad.addColorStop(1, this._darken(c, 60));
-                    } else if (this.isStripe) {
-                        // Stripe: white base with colored band
-                        grad.addColorStop(0, '#ffffff');
-                        grad.addColorStop(0.35, '#f8f8f6');
-                        grad.addColorStop(0.5, this.stripeColor);
-                        grad.addColorStop(0.65, this.color);
-                        grad.addColorStop(0.85, this._darken(this.color, 40));
-                        grad.addColorStop(1, this._darken(this.color, 60));
-                    }
-                    ctx.fillStyle = grad;
-                    ctx.beginPath();
-                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    // Specular highlight
-                    const hlGrad = ctx.createRadialGradient(sx - r * 0.35, sy - r * 0.4, r * 0.05, sx - r * 0.1, sy - r *
-                        0.15, r * 1.1);
-                    hlGrad.addColorStop(0, 'rgba(255,255,255,0.7)');
-                    hlGrad.addColorStop(0.3, 'rgba(255,255,255,0.25)');
-                    hlGrad.addColorStop(1, 'rgba(255,255,255,0)');
-                    ctx.fillStyle = hlGrad;
-                    ctx.beginPath();
-                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    // Number circle
-                    if (this.number > 0 && !this.isCue) {
-                        const nr = r * 0.42;
-                        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-                        ctx.beginPath();
-                        ctx.arc(sx, sy, nr, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.fillStyle = '#111';
-                        ctx.font = `${r*0.7}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillText(this.number, sx, sy + r * 0.02);
-                    }
-
-                    // Outline
-                    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-                    ctx.lineWidth = r * 0.04;
-                    ctx.beginPath();
-                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
-                    ctx.stroke();
-                }
-
-                _lighten(hex, pct) {
-                    const num = parseInt(hex.replace('#', ''), 16);
-                    const r = Math.min(255, (num >> 16) + pct);
-                    const g = Math.min(255, ((num >> 8) & 0x00FF00) + pct);
-                    const b = Math.min(255, (num & 0x0000FF) + pct);
-                    return `rgb(${r},${g},${b})`;
-                }
-                _darken(hex, pct) {
-                    const num = parseInt(hex.replace('#', ''), 16);
-                    const r = Math.max(0, (num >> 16) - pct);
-                    const g = Math.max(0, ((num >> 8) & 0x00FF00) - pct);
-                    const b = Math.max(0, (num & 0x0000FF) - pct);
-                    return `rgb(${r},${g},${b})`;
-                }
-            }
-
-            // --- Particle System ---
+            // ──────────────────────────────────────
+            // Particle
+            // ──────────────────────────────────────
             class Particle {
                 constructor(x, y, vx, vy, color, life = 0.5, size = 3) {
                     this.pos = new Vec2(x, y);
@@ -753,940 +506,780 @@
                     this.life -= dt;
                     if (this.life <= 0) { this.alive = false; return; }
                     this.pos.add(this.vel.clone().scale(dt));
-                    this.vel.scale(0.95);
+                    this.vel.scale(0.93);
                 }
-                draw(ctx, scale, ox, oy) {
-                    const alpha = this.life / this.maxLife;
-                    const sx = this.pos.x * scale + ox;
-                    const sy = this.pos.y * scale + oy;
-                    ctx.fillStyle = this.color.replace('1)', `${alpha})`).replace('rgb',
-                        'rgba');
+                draw(ctx, sc, ox, oy) {
+                    const a = this.life / this.maxLife;
+                    const sx = this.pos.x * sc + ox;
+                    const sy = this.pos.y * sc + oy;
+                    ctx.fillStyle = this.color.replace('1)', `${a})`).replace('rgb', 'rgba');
                     ctx.beginPath();
-                    ctx.arc(sx, sy, this.size * scale * alpha, 0, Math.PI * 2);
+                    ctx.arc(sx, sy, this.size * sc * (0.3 + a * 0.7), 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
-
             class ParticleSystem {
                 constructor() { this.particles = []; }
-                emit(x, y, count, color, force = 3, life = 0.5, size = 3) {
-                    for (let i = 0; i < count; i++) {
-                        const angle = Math.random() * Math.PI * 2;
-                        const speed = Math.random() * force;
-                        this.particles.push(new Particle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, color,
-                            life + Math.random() * 0.3, size + Math.random() * 2));
+                emit(x, y, n, color, force = 3, life = 0.5, size = 3) {
+                    for (let i = 0; i < n; i++) {
+                        const a = Math.random() * Math.PI * 2;
+                        const s = Math.random() * force;
+                        this.particles.push(new Particle(x, y, Math.cos(a) * s, Math.sin(a) * s, color, life + Math.random() *
+                            0.3, size + Math.random() * 2));
                     }
                 }
-                update(dt) {
-                    for (const p of this.particles) p.update(dt);
-                    this.particles = this.particles.filter(p => p.alive);
-                }
-                draw(ctx, scale, ox, oy) {
-                    for (const p of this.particles) p.draw(ctx, scale, ox, oy);
-                }
+                update(dt) { for (const p of this.particles) p.update(dt);
+                    this.particles = this.particles.filter(p => p.alive); }
+                draw(ctx, sc, ox, oy) { for (const p of this.particles) p.draw(ctx, sc, ox, oy); }
                 clear() { this.particles = []; }
             }
 
-            // --- Table Class ---
+            // ──────────────────────────────────────
+            // Ball
+            // ──────────────────────────────────────
+            class Ball {
+                constructor(x, y, num, isCue = false) {
+                    this.pos = new Vec2(x, y);
+                    this.vel = new Vec2(0, 0);
+                    this.radius = BALL_R;
+                    this.number = num;
+                    this.isCue = isCue;
+                    this.pocketed = false;
+                    this.isSolid = num >= 1 && num <= 7;
+                    this.isStripe = num >= 9 && num <= 15;
+                    this.isEight = num === 8;
+                    this.spin = 0;
+                }
+                get color() {
+                    if (this.isCue) return '#fafaf5';
+                    if (this.isEight) return '#111';
+                    if (this.isSolid) return ['#f4d03f', '#2471a3', '#c0392b', '#2e4053', '#f39c12', '#1a5c2a',
+                        '#8b1a1a'
+                    ][this.number - 1] || '#888';
+                    if (this.isStripe) return ['#f7dc6f', '#2e86c1', '#e74c3c', '#3d2b6b', '#f0b27a', '#27ae60',
+                        '#b03a2e'
+                    ][this.number - 9] || '#aaa';
+                    return '#ccc';
+                }
+                get stripeColor() { return this.isStripe ? ['#fff', '#fff', '#fff', '#e8d8f0', '#fff', '#fff', '#fff'][this
+                        .number - 9] || '#fff' : '#fff'; }
+                update(dt) {
+                    if (this.pocketed) return;
+                    const ff = Math.pow(FRICTION, dt * 60);
+                    this.vel.scale(ff);
+                    if (this.vel.len() < 0.06) this.vel.set(0, 0);
+                    this.pos.add(this.vel.clone().scale(dt));
+                }
+                draw(ctx, sc, ox, oy) {
+                    if (this.pocketed) return;
+                    const sx = this.pos.x * sc + ox;
+                    const sy = this.pos.y * sc + oy;
+                    const r = this.radius * sc;
+                    // shadow
+                    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                    ctx.beginPath();
+                    ctx.arc(sx + r * 0.18, sy + r * 0.22, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    // gradient body
+                    const grad = ctx.createRadialGradient(sx - r * 0.3, sy - r * 0.35, r * 0.08, sx, sy, r);
+                    if (this.isCue) {
+                        grad.addColorStop(0, '#fff');
+                        grad.addColorStop(0.45, '#f2f1eb');
+                        grad.addColorStop(0.8, '#dcd9d2');
+                        grad.addColorStop(1, '#b5b2aa');
+                    } else if (this.isEight) {
+                        grad.addColorStop(0, '#4a4a4a');
+                        grad.addColorStop(0.4, '#1a1a1a');
+                        grad.addColorStop(0.85, '#000');
+                        grad.addColorStop(1, '#111');
+                    } else if (this.isSolid) {
+                        const c = this.color;
+                        grad.addColorStop(0, this._light(c, 60));
+                        grad.addColorStop(0.5, c);
+                        grad.addColorStop(0.85, this._dark(c, 45));
+                        grad.addColorStop(1, this._dark(c, 65));
+                    } else if (this.isStripe) {
+                        grad.addColorStop(0, '#fff');
+                        grad.addColorStop(0.35, '#fafaf8');
+                        grad.addColorStop(0.5, this.stripeColor);
+                        grad.addColorStop(0.65, this.color);
+                        grad.addColorStop(0.85, this._dark(this.color, 45));
+                        grad.addColorStop(1, this._dark(this.color, 65));
+                    }
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    // highlight
+                    const hl = ctx.createRadialGradient(sx - r * 0.35, sy - r * 0.4, r * 0.04, sx - r * 0.08, sy - r * 0.12,
+                        r * 1.15);
+                    hl.addColorStop(0, 'rgba(255,255,255,0.75)');
+                    hl.addColorStop(0.35, 'rgba(255,255,255,0.2)');
+                    hl.addColorStop(1, 'rgba(255,255,255,0)');
+                    ctx.fillStyle = hl;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    // number
+                    if (this.number > 0 && !this.isCue) {
+                        const nr = r * 0.44;
+                        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, nr, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.fillStyle = '#111';
+                        ctx.font = `bold ${r*0.72}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(this.number, sx, sy + r * 0.03);
+                    }
+                    // outline
+                    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                    ctx.lineWidth = r * 0.04;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                _light(hex, p) {
+                    const n = parseInt(hex.replace('#', ''), 16);
+                    const r = Math.min(255, (n >> 16) + p);
+                    const g = Math.min(255, ((n >> 8) & 0xFF) + p);
+                    const b = Math.min(255, (n & 0xFF) + p);
+                    return `rgb(${r},${g},${b})`;
+                }
+                _dark(hex, p) {
+                    const n = parseInt(hex.replace('#', ''), 16);
+                    const r = Math.max(0, (n >> 16) - p);
+                    const g = Math.max(0, ((n >> 8) & 0xFF) - p);
+                    const b = Math.max(0, (n & 0xFF) - p);
+                    return `rgb(${r},${g},${b})`;
+                }
+            }
+
+            // ──────────────────────────────────────
+            // Table
+            // ──────────────────────────────────────
             class Table {
                 constructor() {
-                    this.width = TABLE_WIDTH;
-                    this.height = TABLE_HEIGHT;
-                    this.railWidth = RAIL_WIDTH;
-                    this.pocketRadius = POCKET_RADIUS;
-                    this.cornerPocketRadius = CORNER_POCKET_RADIUS;
-                    this.pockets = this._createPockets();
-                    this.cushionSegments = this._createCushions();
+                    this.w = TABLE_W;
+                    this.h = TABLE_H;
+                    this.rail = RAIL_W;
+                    this.pockets = this._pockets();
+                    this.cushions = this._cushions();
                     this.theme = 'classic';
                 }
-
-                _createPockets() {
-                    const r = this.cornerPocketRadius;
-                    const sr = this.pocketRadius;
-                    const hw = this.width / 2;
-                    const hh = this.height / 2;
+                _pockets() {
+                    const hw = this.w / 2,
+                        hh = this.h / 2;
                     return [
-                        { pos: new Vec2(-hw, -hh), radius: r, id: 'top-left' },
-                        { pos: new Vec2(0, -hh - 2), radius: sr, id: 'top-center' },
-                        { pos: new Vec2(hw, -hh), radius: r, id: 'top-right' },
-                        { pos: new Vec2(-hw, hh), radius: r, id: 'bottom-left' },
-                        { pos: new Vec2(0, hh + 2), radius: sr, id: 'bottom-center' },
-                        { pos: new Vec2(hw, hh), radius: r, id: 'bottom-right' },
+                        { pos: new Vec2(-hw, -hh), r: CORNER_POCKET_R, id: 'tl' },
+                        { pos: new Vec2(0, -hh - 2), r: POCKET_R, id: 'tc' },
+                        { pos: new Vec2(hw, -hh), r: CORNER_POCKET_R, id: 'tr' },
+                        { pos: new Vec2(-hw, hh), r: CORNER_POCKET_R, id: 'bl' },
+                        { pos: new Vec2(0, hh + 2), r: POCKET_R, id: 'bc' },
+                        { pos: new Vec2(hw, hh), r: CORNER_POCKET_R, id: 'br' },
                     ];
                 }
-
-                _createCushions() {
-                    const hw = this.width / 2;
-                    const hh = this.height / 2;
-                    const cr = this.cornerPocketRadius;
-                    const sr = this.pocketRadius;
-                    // Each cushion: {start, end, normal}
+                _cushions() {
+                    const hw = this.w / 2,
+                        hh = this.h / 2,
+                        cr = CORNER_POCKET_R,
+                        sr = POCKET_R;
                     return [
-                        // Top rail - left segment
-                        { start: new Vec2(-hw + cr * 1.3, -hh), end: new Vec2(-sr * 0.9, -hh), normal: new Vec2(0, 1) },
-                        // Top rail - right segment
-                        { start: new Vec2(sr * 0.9, -hh), end: new Vec2(hw - cr * 1.3, -hh), normal: new Vec2(0, 1) },
-                        // Bottom rail - left segment
-                        { start: new Vec2(-hw + cr * 1.3, hh), end: new Vec2(-sr * 0.9, hh), normal: new Vec2(0, -1) },
-                        // Bottom rail - right segment
-                        { start: new Vec2(sr * 0.9, hh), end: new Vec2(hw - cr * 1.3, hh), normal: new Vec2(0, -1) },
-                        // Left rail - top segment
-                        { start: new Vec2(-hw, -hh + cr * 1.3), end: new Vec2(-hw, -sr * 0.9), normal: new Vec2(1, 0) },
-                        // Left rail - bottom segment
-                        { start: new Vec2(-hw, sr * 0.9), end: new Vec2(-hw, hh - cr * 1.3), normal: new Vec2(1, 0) },
-                        // Right rail - top segment
-                        { start: new Vec2(hw, -hh + cr * 1.3), end: new Vec2(hw, -sr * 0.9), normal: new Vec2(-1, 0) },
-                        // Right rail - bottom segment
-                        { start: new Vec2(hw, sr * 0.9), end: new Vec2(hw, hh - cr * 1.3), normal: new Vec2(-1, 0) },
+                        { s: new Vec2(-hw + cr * 1.3, -hh), e: new Vec2(-sr * 0.9, -hh), n: new Vec2(0, 1) },
+                        { s: new Vec2(sr * 0.9, -hh), e: new Vec2(hw - cr * 1.3, -hh), n: new Vec2(0, 1) },
+                        { s: new Vec2(-hw + cr * 1.3, hh), e: new Vec2(-sr * 0.9, hh), n: new Vec2(0, -1) },
+                        { s: new Vec2(sr * 0.9, hh), e: new Vec2(hw - cr * 1.3, hh), n: new Vec2(0, -1) },
+                        { s: new Vec2(-hw, -hh + cr * 1.3), e: new Vec2(-hw, -sr * 0.9), n: new Vec2(1, 0) },
+                        { s: new Vec2(-hw, sr * 0.9), e: new Vec2(-hw, hh - cr * 1.3), n: new Vec2(1, 0) },
+                        { s: new Vec2(hw, -hh + cr * 1.3), e: new Vec2(hw, -sr * 0.9), n: new Vec2(-1, 0) },
+                        { s: new Vec2(hw, sr * 0.9), e: new Vec2(hw, hh - cr * 1.3), n: new Vec2(-1, 0) },
                     ];
                 }
-
-                getFeltColor() {
-                    if (this.theme === 'blue') return '#1a5c3a';
-                    if (this.theme === 'red') return '#5c1a2a';
-                    return '#1a6b3c'; // classic green
-                }
-                getFeltDark() {
-                    if (this.theme === 'blue') return '#0d3a22';
-                    if (this.theme === 'red') return '#3a0d18';
-                    return '#0d4a25';
-                }
-
-                draw(ctx, scale, offsetX, offsetY) {
-                    const tw = (this.width + this.railWidth * 2) * scale;
-                    const th = (this.height + this.railWidth * 2) * scale;
-                    const tx = offsetX - this.railWidth * scale;
-                    const ty = offsetY - this.railWidth * scale;
-
-                    // Outer frame shadow
-                    ctx.fillStyle = 'rgba(0,0,0,0.6)';
-                    ctx.fillRect(tx + 6, ty + 6, tw, th);
-
-                    // Outer rail wood
-                    const woodGrad = ctx.createLinearGradient(tx, ty, tx + tw, ty + th);
-                    woodGrad.addColorStop(0, '#7a4a2a');
-                    woodGrad.addColorStop(0.3, '#9a6a3a');
-                    woodGrad.addColorStop(0.5, '#b0804a');
-                    woodGrad.addColorStop(0.7, '#8a5a30');
-                    woodGrad.addColorStop(1, '#5a3020');
-                    ctx.fillStyle = woodGrad;
+                feltColor() { return this.theme === 'blue' ? '#1a5c3a' : this.theme === 'red' ? '#5c1a2a' : '#1a6b3c'; }
+                feltDark() { return this.theme === 'blue' ? '#0d3a22' : this.theme === 'red' ? '#3a0d18' : '#0d4a25'; }
+                draw(ctx, sc, ox, oy) {
+                    const tw = (this.w + this.rail * 2) * sc;
+                    const th = (this.h + this.rail * 2) * sc;
+                    const tx = ox - this.rail * sc;
+                    const ty = oy - this.rail * sc;
+                    // outer shadow
+                    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+                    ctx.fillRect(tx + 5, ty + 5, tw, th);
+                    // wood
+                    const wg = ctx.createLinearGradient(tx, ty, tx + tw, ty + th);
+                    wg.addColorStop(0, '#7a4a2a');
+                    wg.addColorStop(0.3, '#9a6a3a');
+                    wg.addColorStop(0.5, '#b0804a');
+                    wg.addColorStop(0.7, '#8a5a30');
+                    wg.addColorStop(1, '#5a3020');
+                    ctx.fillStyle = wg;
                     ctx.fillRect(tx, ty, tw, th);
-
-                    // Inner rail (darker)
-                    const innerX = tx + this.railWidth * scale * 0.55;
-                    const innerY = ty + this.railWidth * scale * 0.55;
-                    const innerW = tw - this.railWidth * scale * 1.1;
-                    const innerH = th - this.railWidth * scale * 1.1;
-                    const innerGrad = ctx.createLinearGradient(innerX, innerY, innerX + innerW, innerY + innerH);
-                    innerGrad.addColorStop(0, '#3a1a08');
-                    innerGrad.addColorStop(0.5, '#5a3020');
-                    innerGrad.addColorStop(1, '#2a1005');
-                    ctx.fillStyle = innerGrad;
-                    ctx.fillRect(innerX, innerY, innerW, innerH);
-
-                    // Felt surface
-                    const feltX = offsetX - this.width / 2 * scale;
-                    const feltY = offsetY - this.height / 2 * scale;
-                    const feltW = this.width * scale;
-                    const feltH = this.height * scale;
-                    const feltGrad = ctx.createRadialGradient(offsetX, offsetY, feltW * 0.1, offsetX, offsetY, feltW * 0.9);
-                    feltGrad.addColorStop(0, this.getFeltColor());
-                    feltGrad.addColorStop(1, this.getFeltDark());
-                    ctx.fillStyle = feltGrad;
-                    ctx.fillRect(feltX, feltY, feltW, feltH);
-
-                    // Felt texture lines (subtle)
-                    ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+                    // inner rail
+                    const ix = tx + this.rail * sc * 0.5;
+                    const iy = ty + this.rail * sc * 0.5;
+                    const iw = tw - this.rail * sc;
+                    const ih = th - this.rail * sc;
+                    const ig = ctx.createLinearGradient(ix, iy, ix + iw, iy + ih);
+                    ig.addColorStop(0, '#3a1a08');
+                    ig.addColorStop(0.5, '#5a3020');
+                    ig.addColorStop(1, '#2a1005');
+                    ctx.fillStyle = ig;
+                    ctx.fillRect(ix, iy, iw, ih);
+                    // felt
+                    const fx = ox - this.w / 2 * sc;
+                    const fy = oy - this.h / 2 * sc;
+                    const fw = this.w * sc;
+                    const fh = this.h * sc;
+                    const fg = ctx.createRadialGradient(ox, oy, fw * 0.08, ox, oy, fw * 0.95);
+                    fg.addColorStop(0, this.feltColor());
+                    fg.addColorStop(1, this.feltDark());
+                    ctx.fillStyle = fg;
+                    ctx.fillRect(fx, fy, fw, fh);
+                    // subtle lines
+                    ctx.strokeStyle = 'rgba(255,255,255,0.012)';
                     ctx.lineWidth = 1;
-                    for (let i = feltX; i < feltX + feltW; i += 12 * scale) {
-                        ctx.beginPath();
-                        ctx.moveTo(i, feltY);
-                        ctx.lineTo(i, feltY + feltH);
-                        ctx.stroke();
-                    }
-
-                    // Head string line
-                    const headStringX = offsetX - this.width * 0.25 * scale;
-                    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-                    ctx.lineWidth = 1.5;
-                    ctx.setLineDash([6 * scale, 8 * scale]);
+                    for (let x = fx; x < fx + fw; x += 14 * sc) { ctx.beginPath();
+                        ctx.moveTo(x, fy);
+                        ctx.lineTo(x, fy + fh);
+                        ctx.stroke(); }
+                    // head string
+                    const hsx = ox - this.w * 0.25 * sc;
+                    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                    ctx.setLineDash([5 * sc, 7 * sc]);
                     ctx.beginPath();
-                    ctx.moveTo(headStringX, feltY);
-                    ctx.lineTo(headStringX, feltY + feltH);
+                    ctx.moveTo(hsx, fy);
+                    ctx.lineTo(hsx, fy + fh);
                     ctx.stroke();
                     ctx.setLineDash([]);
-
-                    // Foot spot
-                    const footSpotX = offsetX + this.width * 0.25 * scale;
-                    const footSpotY = offsetY;
-                    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+                    // foot spot
+                    ctx.fillStyle = 'rgba(255,255,255,0.22)';
                     ctx.beginPath();
-                    ctx.arc(footSpotX, footSpotY, 3 * scale, 0, Math.PI * 2);
+                    ctx.arc(ox + this.w * 0.25 * sc, oy, 2.5 * sc, 0, Math.PI * 2);
                     ctx.fill();
-
-                    // Pockets
-                    for (const pocket of this.pockets) {
-                        const px = pocket.pos.x * scale + offsetX;
-                        const py = pocket.pos.y * scale + offsetY;
-                        const pr = pocket.radius * scale;
-                        const pGrad = ctx.createRadialGradient(px, py, pr * 0.3, px, py, pr);
-                        pGrad.addColorStop(0, '#000');
-                        pGrad.addColorStop(0.7, '#111');
-                        pGrad.addColorStop(1, '#1a1a1a');
-                        ctx.fillStyle = pGrad;
+                    // pockets
+                    for (const p of this.pockets) {
+                        const px = p.pos.x * sc + ox;
+                        const py = p.pos.y * sc + oy;
+                        const pr = p.r * sc;
+                        const pg = ctx.createRadialGradient(px, py, pr * 0.25, px, py, pr);
+                        pg.addColorStop(0, '#000');
+                        pg.addColorStop(0.7, '#111');
+                        pg.addColorStop(1, '#1a1a1a');
+                        ctx.fillStyle = pg;
                         ctx.beginPath();
                         ctx.arc(px, py, pr, 0, Math.PI * 2);
                         ctx.fill();
-                        // Pocket rim
                         ctx.strokeStyle = '#3a2010';
-                        ctx.lineWidth = 2.5 * scale;
+                        ctx.lineWidth = 2 * sc;
                         ctx.beginPath();
-                        ctx.arc(px, py, pr + 1 * scale, 0, Math.PI * 2);
+                        ctx.arc(px, py, pr + 0.8 * sc, 0, Math.PI * 2);
                         ctx.stroke();
                     }
-
-                    // Rail dots (diamonds)
-                    const dotSpacing = this.width / 8;
-                    ctx.fillStyle = 'rgba(255,220,180,0.6)';
+                    // diamonds
+                    ctx.fillStyle = 'rgba(255,220,180,0.55)';
+                    const ds = this.w / 8;
                     for (let i = 1; i < 8; i++) {
-                        const dx = (-this.width / 2 + dotSpacing * i) * scale + offsetX;
-                        const dyTop = (-this.height / 2 - this.railWidth * 0.6) * scale + offsetY;
-                        const dyBot = (this.height / 2 + this.railWidth * 0.6) * scale + offsetY;
+                        const dx = (-this.w / 2 + ds * i) * sc + ox;
                         ctx.beginPath();
-                        ctx.arc(dx, dyTop, 3.5 * scale, 0, Math.PI * 2);
+                        ctx.arc(dx, (-this.h / 2 - this.rail * 0.55) * sc + oy, 3 * sc, 0, Math.PI * 2);
                         ctx.fill();
                         ctx.beginPath();
-                        ctx.arc(dx, dyBot, 3.5 * scale, 0, Math.PI * 2);
+                        ctx.arc(dx, (this.h / 2 + this.rail * 0.55) * sc + oy, 3 * sc, 0, Math.PI * 2);
                         ctx.fill();
                     }
-                    const dotSpacingY = this.height / 4;
+                    const dsY = this.h / 4;
                     for (let i = 1; i < 4; i++) {
-                        const dy = (-this.height / 2 + dotSpacingY * i) * scale + offsetY;
-                        const dxL = (-this.width / 2 - this.railWidth * 0.6) * scale + offsetX;
-                        const dxR = (this.width / 2 + this.railWidth * 0.6) * scale + offsetX;
+                        const dy = (-this.h / 2 + dsY * i) * sc + oy;
                         ctx.beginPath();
-                        ctx.arc(dxL, dy, 3.5 * scale, 0, Math.PI * 2);
+                        ctx.arc((-this.w / 2 - this.rail * 0.55) * sc + ox, dy, 3 * sc, 0, Math.PI * 2);
                         ctx.fill();
                         ctx.beginPath();
-                        ctx.arc(dxR, dy, 3.5 * scale, 0, Math.PI * 2);
+                        ctx.arc((this.w / 2 + this.rail * 0.55) * sc + ox, dy, 3 * sc, 0, Math.PI * 2);
                         ctx.fill();
                     }
                 }
             }
 
-            // --- Cue Stick ---
+            // ──────────────────────────────────────
+            // Cue stick (longer, more visible)
+            // ──────────────────────────────────────
             class Cue {
                 constructor() {
-                    this.angle = 0;
+                    this.angle = Math.PI;
                     this.power = 0;
-                    this.maxPower = MAX_POWER;
-                    this.visible = true;
                     this.pullback = 0;
+                    this.visible = true;
                     this.animating = false;
-                    this.animProgress = 0;
-                    this.animDuration = 0.15;
-                    this.strikePos = null;
+                    this.animT = 0;
+                    this.animDur = 0.14;
                 }
+                draw(ctx, sc, ox, oy, cuePos) {
+                    if (!this.visible || !cuePos) return;
+                    const sx = cuePos.x * sc + ox;
+                    const sy = cuePos.y * sc + oy;
+                    const pull = this.pullback * sc;
+                    // Longer base: BALL_R+30 = 43 units base length
+                    const totalLen = (BALL_R + 30) * sc + pull;
+                    const tipLen = (BALL_R + 4) * sc;
 
-                draw(ctx, scale, offsetX, offsetY, cueBallPos) {
-                    if (!this.visible || !cueBallPos) return;
-                    const sx = cueBallPos.x * scale + offsetX;
-                    const sy = cueBallPos.y * scale + offsetY;
-                    const pullDist = this.pullback * scale;
-                    const totalDist = (BALL_RADIUS + 8) * scale + pullDist;
+                    const startX = sx - Math.cos(this.angle) * totalLen;
+                    const startY = sy - Math.sin(this.angle) * totalLen;
+                    const endX = sx - Math.cos(this.angle) * tipLen;
+                    const endY = sy - Math.sin(this.angle) * tipLen;
 
-                    const startX = sx - Math.cos(this.angle) * totalDist;
-                    const startY = sy - Math.sin(this.angle) * totalDist;
-                    const endX = sx - Math.cos(this.angle) * (BALL_RADIUS + 3) * scale;
-                    const endY = sy - Math.sin(this.angle) * (BALL_RADIUS + 3) * scale;
-
-                    // Cue shadow
-                    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
-                    ctx.lineWidth = 7 * scale;
+                    // shadow
+                    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                    ctx.lineWidth = 8 * sc;
                     ctx.lineCap = 'round';
                     ctx.beginPath();
-                    ctx.moveTo(startX + 2, startY + 2);
-                    ctx.lineTo(endX + 2, endY + 2);
+                    ctx.moveTo(startX + 3, startY + 3);
+                    ctx.lineTo(endX + 3, endY + 3);
                     ctx.stroke();
 
-                    // Cue body (tapered)
-                    const tipWidth = 3.5 * scale;
-                    const buttWidth = 8 * scale;
-                    const len = totalDist;
-                    const segments = 20;
-                    for (let i = 0; i < segments; i++) {
-                        const t = i / segments;
-                        const tNext = (i + 1) / segments;
-                        const w = tipWidth + (buttWidth - tipWidth) * t;
-                        const wNext = tipWidth + (buttWidth - tipWidth) * tNext;
+                    // tapered body
+                    const tipW = 3.5 * sc;
+                    const buttW = 8.5 * sc;
+                    const segs = 24;
+                    for (let i = 0; i < segs; i++) {
+                        const t = i / segs;
+                        const tn = (i + 1) / segs;
+                        const w = tipW + (buttW - tipW) * t;
+                        const wn = tipW + (buttW - tipW) * tn;
                         const x1 = startX + (endX - startX) * t;
                         const y1 = startY + (endY - startY) * t;
-                        const x2 = startX + (endX - startX) * tNext;
-                        const y2 = startY + (endY - startY) * tNext;
-                        const shade = 0.55 + t * 0.45;
+                        const x2 = startX + (endX - startX) * tn;
+                        const y2 = startY + (endY - startY) * tn;
+                        const shade = 0.5 + t * 0.5;
                         ctx.fillStyle =
-                            `rgb(${Math.floor(180*shade)},${Math.floor(140*shade)},${Math.floor(90*shade)})`;
+                            `rgb(${Math.floor(175*shade)},${Math.floor(135*shade)},${Math.floor(85*shade)})`;
                         ctx.beginPath();
                         ctx.moveTo(x1 - w / 2, y1);
                         ctx.lineTo(x1 + w / 2, y1);
-                        ctx.lineTo(x2 + wNext / 2, y2);
-                        ctx.lineTo(x2 - wNext / 2, y2);
+                        ctx.lineTo(x2 + wn / 2, y2);
+                        ctx.lineTo(x2 - wn / 2, y2);
                         ctx.closePath();
                         ctx.fill();
                     }
-
-                    // Ferrule (white tip area)
-                    const ferruleX = endX;
-                    const ferruleY = endY;
-                    const ferruleLen = 12 * scale;
-                    const ferruleStartX = ferruleX - Math.cos(this.angle) * ferruleLen;
-                    const ferruleStartY = ferruleY - Math.sin(this.angle) * ferruleLen;
-                    ctx.strokeStyle = '#f0ece0';
-                    ctx.lineWidth = 4 * scale;
+                    // ferrule
+                    const fl = 14 * sc;
+                    const fsx = endX - Math.cos(this.angle) * fl;
+                    const fsy = endY - Math.sin(this.angle) * fl;
+                    ctx.strokeStyle = '#f5f3ec';
+                    ctx.lineWidth = 4.5 * sc;
                     ctx.lineCap = 'round';
                     ctx.beginPath();
-                    ctx.moveTo(ferruleStartX, ferruleStartY);
-                    ctx.lineTo(ferruleX, ferruleY);
+                    ctx.moveTo(fsx, fsy);
+                    ctx.lineTo(endX, endY);
                     ctx.stroke();
-
-                    // Tip
+                    // tip
                     ctx.fillStyle = '#3a8ad4';
                     ctx.beginPath();
-                    ctx.arc(ferruleX, ferruleY, 3.2 * scale, 0, Math.PI * 2);
+                    ctx.arc(endX, endY, 3.5 * sc, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
 
-            // --- Physics Engine ---
+            // ──────────────────────────────────────
+            // Physics
+            // ──────────────────────────────────────
             class PhysicsEngine {
-                constructor(table, audioManager, particleSystem) {
+                constructor(table, audio, particles) {
                     this.table = table;
-                    this.audio = audioManager;
-                    this.particles = particleSystem;
+                    this.audio = audio;
+                    this.parts = particles;
                 }
-
                 checkPocket(ball) {
                     if (ball.pocketed) return false;
-                    for (const pocket of this.table.pockets) {
-                        const dist = ball.pos.dist(pocket.pos);
-                        if (dist < pocket.radius - ball.radius * 0.3) {
+                    for (const p of this.table.pockets) {
+                        const d = ball.pos.dist(p.pos);
+                        if (d < p.r - ball.radius * 0.3) {
                             ball.pocketed = true;
                             ball.vel.set(0, 0);
-                            this.particles.emit(ball.pos.x, ball.pos.y, 25, 'rgb(255,220,150)',
-                                4, 0.6, 4);
-                            this.audio.pocketSound();
+                            this.parts.emit(ball.pos.x, ball.pos.y, 22, 'rgb(255,220,150)', 4, 0.55, 3.5);
+                            if (this.audio) this.audio.pocket();
                             return true;
                         }
-                        // Pocket pull (if close to pocket, slightly pull ball in)
-                        if (dist < pocket.radius + POCKET_PULL_DIST && ball.vel.length() < 3) {
-                            const pullDir = pocket.pos.clone().sub(ball.pos).normalize();
-                            const pullForce = (1 - dist / (pocket.radius + POCKET_PULL_DIST)) * 0.8;
-                            ball.vel.add(pullDir.clone().scale(pullForce));
+                        if (d < p.r + POCKET_PULL && ball.vel.len() < 3) {
+                            const dir = p.pos.clone().sub(ball.pos).norm();
+                            ball.vel.add(dir.scale((1 - d / (p.r + POCKET_PULL)) * 0.7));
                         }
                     }
                     return false;
                 }
-
                 checkCushions(ball) {
                     if (ball.pocketed) return;
-                    const hw = this.table.width / 2;
-                    const hh = this.table.height / 2;
-                    const r = ball.radius;
-                    let collided = false;
-
-                    // Check each cushion segment
-                    for (const seg of this.table.cushionSegments) {
-                        const closest = this._closestPointOnSegment(ball.pos, seg.start, seg.end);
-                        const dist = ball.pos.dist(closest);
-                        if (dist < r) {
-                            // Push ball out
-                            const pushDir = ball.pos.clone().sub(closest).normalize();
-                            if (pushDir.length() < 0.001) pushDir.copy(seg.normal);
-                            ball.pos.copy(closest.clone().add(pushDir.clone().scale(r + 0.5)));
-                            // Reflect velocity
-                            const dot = ball.vel.dot(pushDir);
+                    let hit = false;
+                    for (const seg of this.table.cushions) {
+                        const cp = this._closestPt(ball.pos, seg.s, seg.e);
+                        const d = ball.pos.dist(cp);
+                        if (d < ball.radius) {
+                            const push = ball.pos.clone().sub(cp).norm();
+                            if (push.len() < 1e-4) push.copy(seg.n);
+                            ball.pos.copy(cp.clone().add(push.clone().scale(ball.radius + 0.4)));
+                            const dot = ball.vel.dot(push);
                             if (dot < 0) {
-                                ball.vel.sub(pushDir.clone().scale(2 * dot));
-                                ball.vel.scale(CUSHION_RESTITUTION);
-                                collided = true;
+                                ball.vel.sub(push.clone().scale(2 * dot));
+                                ball.vel.scale(CUSHION_REST);
+                                hit = true;
                             }
                         }
                     }
-
-                    // Also check corners near pockets
-                    for (const pocket of this.table.pockets) {
-                        const dist = ball.pos.dist(pocket.pos);
-                        const safeDist = pocket.radius + r * 0.7;
-                        if (dist < safeDist && dist > pocket.radius - r * 0.5) {
-                            const pushDir = ball.pos.clone().sub(pocket.pos).normalize();
-                            if (pushDir.length() > 0.001) {
-                                ball.pos.copy(pocket.pos.clone().add(pushDir.clone().scale(safeDist)));
-                                const dot = ball.vel.dot(pushDir);
-                                if (dot < 0) {
-                                    ball.vel.sub(pushDir.clone().scale(2 * dot));
-                                    ball.vel.scale(CUSHION_RESTITUTION * 0.8);
-                                    collided = true;
-                                }
+                    for (const p of this.table.pockets) {
+                        const d = ball.pos.dist(p.pos);
+                        const safe = p.r + ball.radius * 0.65;
+                        if (d < safe && d > p.r - ball.radius * 0.4) {
+                            const push = ball.pos.clone().sub(p.pos).norm();
+                            if (push.len() > 1e-4) {
+                                ball.pos.copy(p.pos.clone().add(push.clone().scale(safe)));
+                                const dot = ball.vel.dot(push);
+                                if (dot < 0) { ball.vel.sub(push.clone().scale(2 * dot));
+                                    ball.vel.scale(CUSHION_REST * 0.8);
+                                    hit = true; }
                             }
                         }
                     }
-
-                    if (collided) {
-                        this.audio.cushionBounce();
-                        this.particles.emit(ball.pos.x, ball.pos.y, 6, 'rgb(200,180,150)', 1.5, 0.3, 2);
+                    if (hit) {
+                        if (this.audio) this.audio.cushion();
+                        this.parts.emit(ball.pos.x, ball.pos.y, 5, 'rgb(200,180,150)', 1.4, 0.25, 1.8);
                     }
                 }
-
-                ballCollision(b1, b2) {
-                    if (b1.pocketed || b2.pocketed) return;
-                    const dist = b1.pos.dist(b2.pos);
-                    const minDist = b1.radius + b2.radius;
-                    if (dist < minDist && dist > 0.001) {
-                        // Separate balls
-                        const overlap = minDist - dist;
-                        const sepDir = b1.pos.clone().sub(b2.pos).normalize();
-                        if (sepDir.length() < 0.001) sepDir.set(1, 0);
-                        b1.pos.add(sepDir.clone().scale(overlap / 2));
-                        b2.pos.sub(sepDir.clone().scale(overlap / 2));
-
-                        // Elastic collision
-                        const relVel = b1.vel.clone().sub(b2.vel);
-                        const contactNormal = b1.pos.clone().sub(b2.pos).normalize();
-                        const relVelDot = relVel.dot(contactNormal);
-                        if (relVelDot > 0) return; // Already separating
-
-                        const impulse = contactNormal.clone().scale(relVelDot * BALL_RESTITUTION);
-                        b1.vel.sub(impulse);
-                        b2.vel.add(impulse);
-
-                        // Spin influence
-                        if (b1.spin !== 0) {
-                            const tangent = new Vec2(-contactNormal.y, contactNormal.x);
-                            b1.vel.add(tangent.scale(b1.spin * 0.3));
+                ballCollision(a, b) {
+                    if (a.pocketed || b.pocketed) return;
+                    const d = a.pos.dist(b.pos);
+                    const minD = a.radius + b.radius;
+                    if (d < minD && d > 0.0001) {
+                        const overlap = minD - d;
+                        const sep = a.pos.clone().sub(b.pos).norm();
+                        if (sep.len() < 1e-4) sep.set(1, 0);
+                        a.pos.add(sep.clone().scale(overlap / 2));
+                        b.pos.sub(sep.clone().scale(overlap / 2));
+                        const rv = a.vel.clone().sub(b.vel);
+                        const cn = a.pos.clone().sub(b.pos).norm();
+                        const rvd = rv.dot(cn);
+                        if (rvd > 0) return;
+                        const imp = cn.clone().scale(rvd * BALL_REST);
+                        a.vel.sub(imp);
+                        b.vel.add(imp);
+                        if (a.spin !== 0) {
+                            const tan = new Vec2(-cn.y, cn.x);
+                            a.vel.add(tan.scale(a.spin * 0.25));
                         }
-
-                        const collisionForce = Math.abs(relVelDot);
-                        this.audio.ballHit(collisionForce);
-                        const midX = (b1.pos.x + b2.pos.x) / 2;
-                        const midY = (b1.pos.y + b2.pos.y) / 2;
-                        this.particles.emit(midX, midY, Math.floor(collisionForce * 3), 'rgb(255,240,220)',
-                            collisionForce * 0.5, 0.25, 3);
+                        const force = Math.abs(rvd);
+                        if (this.audio) this.audio.ballHit(force);
+                        const mx = (a.pos.x + b.pos.x) / 2;
+                        const my = (a.pos.y + b.pos.y) / 2;
+                        this.parts.emit(mx, my, Math.floor(force * 2.5), 'rgb(255,240,220)', force * 0.45, 0.22, 2.5);
                     }
                 }
-
-                _closestPointOnSegment(point, segStart, segEnd) {
-                    const ab = segEnd.clone().sub(segStart);
-                    const ap = point.clone().sub(segStart);
-                    const lenSq = ab.lengthSq();
-                    if (lenSq < 0.0001) return segStart.clone();
-                    let t = ap.dot(ab) / lenSq;
+                _closestPt(pt, s, e) {
+                    const ab = e.clone().sub(s);
+                    const ap = pt.clone().sub(s);
+                    const l2 = ab.lenSq();
+                    if (l2 < 1e-6) return s.clone();
+                    let t = ap.dot(ab) / l2;
                     t = Math.max(0, Math.min(1, t));
-                    return segStart.clone().add(ab.clone().scale(t));
+                    return s.clone().add(ab.scale(t));
                 }
-
                 update(balls, dt) {
-                    // Sub-step for stability
-                    const subSteps = 3;
-                    const subDt = dt / subSteps;
-                    for (let s = 0; s < subSteps; s++) {
-                        for (const ball of balls) {
-                            if (!ball.pocketed) {
-                                ball.update(subDt);
-                                this.checkCushions(ball);
-                                this.checkPocket(ball);
-                            }
+                    const steps = 3;
+                    const sdt = dt / steps;
+                    for (let st = 0; st < steps; st++) {
+                        for (const b of balls) {
+                            if (!b.pocketed) { b.update(sdt);
+                                this.checkCushions(b);
+                                this.checkPocket(b); }
                         }
-                        // Ball-to-ball collisions
-                        for (let i = 0; i < balls.length; i++) {
-                            for (let j = i + 1; j < balls.length; j++) {
-                                this.ballCollision(balls[i], balls[j]);
-                            }
-                        }
+                        for (let i = 0; i < balls.length; i++)
+                            for (let j = i + 1; j < balls.length; j++) this.ballCollision(balls[i], balls[j]);
                     }
                 }
-
-                allBallsStopped(balls) {
-                    for (const ball of balls) {
-                        if (!ball.pocketed && ball.vel.length() > 0.06) return false;
-                    }
-                    return true;
-                }
+                allStopped(balls) { return balls.every(b => b.pocketed || b.vel.len() < 0.05); }
             }
 
-            // --- Game Manager ---
+            // ──────────────────────────────────────
+            // Game Manager
+            // ──────────────────────────────────────
             class GameManager {
-                constructor(audioManager) {
-                    this.audio = audioManager;
-                    this.balls = [];
-                    this.cueBall = null;
+                constructor(audio) {
+                    this.audio = audio;
                     this.table = new Table();
                     this.particles = new ParticleSystem();
                     this.physics = new PhysicsEngine(this.table, this.audio, this.particles);
                     this.cue = new Cue();
-                    this.gameMode = 'practice'; // 'practice', 'pvp', 'ai'
-                    this.aiDifficulty = 'medium';
-                    this.currentPlayer = 1; // 1 or 2
-                    this.player1Type = 'solid'; // assigned after first pocket
-                    this.player2Type = 'stripe';
+                    this.balls = [];
+                    this.cueBall = null;
+                    this.mode = 'practice';
+                    this.aiDiff = 'medium';
+                    this.curPlayer = 1;
+                    this.p1Type = 'solid';
+                    this.p2Type = 'stripe';
                     this.assigned = false;
                     this.gameOver = false;
                     this.winner = null;
                     this.paused = false;
                     this.aiming = false;
-                    this.aimStart = null;
-                    this.shotInProgress = false;
+                    this.shotActive = false;
                     this.firstContact = null;
-                    this.pocketedThisShot = [];
-                    this.foulThisShot = false;
-                    this.turnMessage = '';
-                    this.showGuide = true;
-                    this.soundEnabled = true;
-                    this.musicEnabled = false;
+                    this.pocketedShot = [];
+                    this.foulShot = false;
                     this.scores = { 1: 0, 2: 0 };
-                    this.foulMessage = '';
-                    this.foulMessageTimer = 0;
-                    this.cameraShake = 0;
-                    this.cameraShakeX = 0;
-                    this.cameraShakeY = 0;
-                    this.winCelebration = 0;
+                    this.foulMsg = '';
+                    this.foulTimer = 0;
+                    this.shake = 0;
+                    this.shakeX = 0;
+                    this.shakeY = 0;
+                    this.winCeleb = 0;
+                    this.showGuide = true;
                 }
-
                 setupRack() {
                     this.balls = [];
                     this.particles.clear();
                     this.assigned = false;
                     this.gameOver = false;
                     this.winner = null;
-                    this.shotInProgress = false;
-                    this.pocketedThisShot = [];
-                    this.foulThisShot = false;
+                    this.shotActive = false;
+                    this.pocketedShot = [];
+                    this.foulShot = false;
                     this.firstContact = null;
-                    this.foulMessage = '';
-                    this.foulMessageTimer = 0;
-                    this.cameraShake = 0;
-                    this.winCelebration = 0;
+                    this.foulMsg = '';
+                    this.foulTimer = 0;
+                    this.shake = 0;
+                    this.winCeleb = 0;
                     this.scores = { 1: 0, 2: 0 };
-
-                    const hw = this.table.width / 2;
-                    const hh = this.table.height / 2;
-                    const footSpotX = hw * 0.5;
-                    const footSpotY = 0;
-
-                    // Cue ball behind head string
+                    const hw = this.table.w / 2;
+                    const hh = this.table.h / 2;
                     this.cueBall = new Ball(-hw * 0.5, 0, 0, true);
                     this.balls.push(this.cueBall);
-
-                    // Standard 8-ball rack (triangle pointing toward head of table)
-                    const rackStartX = footSpotX;
-                    const rackStartY = footSpotY;
-                    const spacing = BALL_RADIUS * 2 + 0.8;
-
-                    // Ball arrangement in triangle (rows 1-5 from top)
-                    const rackBalls = [
-                        { row: 0, col: 0, num: 1 }, // apex (solid)
-                        { row: 1, col: 0, num: 9 }, { row: 1, col: 1, num: 2 },
-                        { row: 2, col: 0, num: 3 }, { row: 2, col: 1, num: 8 }, { row: 2, col: 2, num: 10 },
-                        { row: 3, col: 0, num: 11 }, { row: 3, col: 1, num: 4 }, { row: 3, col: 2, num: 12 }, { row: 3,
-                            col: 3, num: 5 },
-                        { row: 4, col: 0, num: 13 }, { row: 4, col: 1, num: 6 }, { row: 4, col: 2, num: 14 }, { row: 4,
-                            col: 3, num: 7 }, { row: 4, col: 4, num: 15 },
+                    const sx = hw * 0.5;
+                    const sy = 0;
+                    const sp = BALL_R * 2 + 0.8;
+                    const rack = [
+                        { r: 0, c: 0, n: 1 }, { r: 1, c: 0, n: 9 }, { r: 1, c: 1, n: 2 },
+                        { r: 2, c: 0, n: 3 }, { r: 2, c: 1, n: 8 }, { r: 2, c: 2, n: 10 },
+                        { r: 3, c: 0, n: 11 }, { r: 3, c: 1, n: 4 }, { r: 3, c: 2, n: 12 }, { r: 3, c: 3, n: 5 },
+                        { r: 4, c: 0, n: 13 }, { r: 4, c: 1, n: 6 }, { r: 4, c: 2, n: 14 }, { r: 4, c: 3, n: 7 },
+                        { r: 4, c: 4, n: 15 },
                     ];
-
-                    for (const rb of rackBalls) {
-                        const x = rackStartX + rb.row * spacing * Math.cos(Math.PI / 6);
-                        const y = rackStartY + (rb.col - rb.row / 2) * spacing;
-                        this.balls.push(new Ball(x, y, rb.num));
+                    for (const rb of rack) {
+                        const x = sx + rb.r * sp * Math.cos(Math.PI / 6);
+                        const y = sy + (rb.c - rb.r / 2) * sp;
+                        this.balls.push(new Ball(x, y, rb.n));
                     }
-
-                    this.currentPlayer = 1;
+                    this.curPlayer = 1;
                     this.cue.visible = true;
-                    this.cue.angle = Math.PI; // Aim toward the rack
+                    this.cue.angle = Math.PI;
                     this.cue.power = 0;
                     this.cue.pullback = 0;
                 }
-
-                getPlayerBalls(player) {
-                    const type = player === 1 ? this.player1Type : this.player2Type;
-                    return this.balls.filter(b => !b.pocketed && !b.isCue && !b.isEight &&
-                        ((type === 'solid' && b.isSolid) || (type === 'stripe' && b.isStripe)));
+                playerBalls(p) {
+                    const t = p === 1 ? this.p1Type : this.p2Type;
+                    return this.balls.filter(b => !b.pocketed && !b.isCue && !b.isEight && ((t === 'solid' && b
+                        .isSolid) || (t === 'stripe' && b.isStripe)));
                 }
-
-                getOpponentBalls(player) {
-                    const type = player === 1 ? this.player2Type : this.player1Type;
-                    return this.balls.filter(b => !b.pocketed && !b.isCue && !b.isEight &&
-                        ((type === 'solid' && b.isSolid) || (type === 'stripe' && b.isStripe)));
-                }
-
-                allPlayerBallsPocketed(player) {
-                    return this.getPlayerBalls(player).length === 0;
-                }
-
-                isEightBallOnTable() {
-                    return this.balls.some(b => b.number === 8 && !b.pocketed);
-                }
-
-                getPocketedEight() {
-                    return this.balls.find(b => b.number === 8 && b.pocketed);
-                }
-
+                allPocketed(p) { return this.playerBalls(p).length === 0; }
+                eightOnTable() { return this.balls.some(b => b.number === 8 && !b.pocketed); }
                 handleShotResult() {
-                    const pocketedSolids = this.pocketedThisShot.filter(b => b.isSolid);
-                    const pocketedStripes = this.pocketedThisShot.filter(b => b.isStripe);
-                    const pocketedEight = this.pocketedThisShot.find(b => b.isEight);
-                    const pocketedCue = this.pocketedThisShot.find(b => b.isCue);
-
-                    let foul = this.foulThisShot;
-                    let turnSwitch = false;
-
-                    // Scratch (cue ball pocketed)
-                    if (pocketedCue) {
+                    const psolids = this.pocketedShot.filter(b => b.isSolid);
+                    const pstripes = this.pocketedShot.filter(b => b.isStripe);
+                    const p8 = this.pocketedShot.find(b => b.isEight);
+                    const pCue = this.pocketedShot.find(b => b.isCue);
+                    let foul = this.foulShot;
+                    let switchTurn = false;
+                    if (pCue) {
                         foul = true;
-                        this.foulMessage = 'Scratch! Ball in hand.';
-                        this.foulMessageTimer = 2;
-                        this.audio.foulSound();
-                        // Reposition cue ball
+                        this.foulMsg = 'Scratch! Ball in hand.';
+                        this.foulTimer = 2.5;
+                        if (this.audio) this.audio.foul();
                         this.cueBall.pocketed = false;
-                        this.cueBall.pos.set(-this.table.width * 0.35, (Math.random() - 0.5) * this.table.height *
-                        0.6);
                         this.cueBall.vel.set(0, 0);
-                        turnSwitch = true;
+                        this.cueBall.pos.set(-this.table.w * 0.35, (Math.random() - 0.5) * this.table.h * 0.55);
+                        switchTurn = true;
                     }
-
-                    // 8-ball pocketed
-                    if (pocketedEight) {
+                    if (p8) {
                         if (!this.assigned) {
-                            // 8-ball on break - re-rack or spot it (here we just reset)
-                            pocketedEight.pocketed = false;
-                            pocketedEight.pos.set(this.table.width * 0.5, 0);
-                            pocketedEight.vel.set(0, 0);
-                            this.foulMessage = '8-ball pocketed on break - respotted';
-                            this.foulMessageTimer = 2;
-                            turnSwitch = true;
-                        } else if (this.allPlayerBallsPocketed(this.currentPlayer) && !foul) {
-                            // Legal 8-ball pocket - WIN!
+                            p8.pocketed = false;
+                            p8.pos.set(this.table.w * 0.5, 0);
+                            p8.vel.set(0, 0);
+                            this.foulMsg = '8-ball on break - respotted';
+                            this.foulTimer = 2;
+                            switchTurn = true;
+                        } else if (this.allPocketed(this.curPlayer) && !foul) {
                             this.gameOver = true;
-                            this.winner = this.currentPlayer;
-                            this.audio.victorySound();
-                            this.winCelebration = 3;
+                            this.winner = this.curPlayer;
+                            if (this.audio) this.audio.victory();
+                            this.winCeleb = 3;
                             this.cue.visible = false;
                             return;
                         } else {
-                            // 8-ball pocketed illegally - LOSE
                             this.gameOver = true;
-                            this.winner = this.currentPlayer === 1 ? 2 : 1;
-                            this.foulMessage = '8-ball pocketed illegally!';
-                            this.foulMessageTimer = 3;
-                            this.audio.foulSound();
+                            this.winner = this.curPlayer === 1 ? 2 : 1;
+                            this.foulMsg = '8-ball pocketed illegally!';
+                            this.foulTimer = 3;
+                            if (this.audio) this.audio.foul();
                             this.cue.visible = false;
                             return;
                         }
                     }
-
-                    // Ball assignment
-                    if (!this.assigned && (pocketedSolids.length > 0 || pocketedStripes.length > 0) && !foul) {
-                        if (pocketedSolids.length > 0 && pocketedStripes.length === 0) {
-                            this.player1Type = 'solid';
-                            this.player2Type = 'stripe';
-                            this.assigned = true;
-                        } else if (pocketedStripes.length > 0 && pocketedSolids.length === 0) {
-                            this.player1Type = 'stripe';
-                            this.player2Type = 'solid';
-                            this.assigned = true;
-                        }
-                        // If both types pocketed on break, shooter chooses (we auto-assign based on first pocketed)
-                        if (pocketedSolids.length > 0 && pocketedStripes.length > 0) {
-                            this.player1Type = pocketedSolids.length >= pocketedStripes.length ? 'solid' : 'stripe';
-                            this.player2Type = this.player1Type === 'solid' ? 'stripe' : 'solid';
-                            this.assigned = true;
-                        }
+                    if (!this.assigned && (psolids.length > 0 || pstripes.length > 0) && !foul) {
+                        if (psolids.length > 0 && pstripes.length === 0) { this.p1Type = 'solid';
+                            this.p2Type = 'stripe';
+                            this.assigned = true; } else if (pstripes.length > 0 && psolids.length === 0) { this
+                                .p1Type = 'stripe';
+                            this.p2Type = 'solid';
+                            this.assigned = true; } else if (psolids.length > 0 && pstripes.length > 0) { this.p1Type =
+                                psolids.length >= pstripes.length ? 'solid' : 'stripe';
+                            this.p2Type = this.p1Type === 'solid' ? 'stripe' : 'solid';
+                            this.assigned = true; }
                     }
-
-                    // Update scores
                     if (this.assigned) {
-                        const p1Balls = this.balls.filter(b => b.isSolid && b.pocketed).length;
-                        const p2Balls = this.balls.filter(b => b.isStripe && b.pocketed).length;
-                        if (this.player1Type === 'solid') {
-                            this.scores[1] = p1Balls;
-                            this.scores[2] = p2Balls;
-                        } else {
-                            this.scores[1] = p2Balls;
-                            this.scores[2] = p1Balls;
-                        }
+                        const s1 = this.balls.filter(b => b.isSolid && b.pocketed).length;
+                        const s2 = this.balls.filter(b => b.isStripe && b.pocketed).length;
+                        this.scores[1] = this.p1Type === 'solid' ? s1 : s2;
+                        this.scores[2] = this.p2Type === 'solid' ? s1 : s2;
                     }
-
-                    // Determine if turn switches
-                    const playerPocketedOwn = this.pocketedThisShot.some(b => {
-                        const t = this.currentPlayer === 1 ? this.player1Type : this.player2Type;
+                    const ownPocketed = this.pocketedShot.some(b => {
+                        const t = this.curPlayer === 1 ? this.p1Type : this.p2Type;
                         return (t === 'solid' && b.isSolid) || (t === 'stripe' && b.isStripe);
                     });
-
-                    if (foul || (!playerPocketedOwn && this.pocketedThisShot.length === 0) || (this.pocketedThisShot
-                            .length === 0 && !foul && this.firstContact === null)) {
-                        turnSwitch = true;
-                    }
-                    if (foul || (!playerPocketedOwn && !foul && this.pocketedThisShot.length > 0 && this.assigned)) {
-                        turnSwitch = true;
-                    }
-                    if (!this.assigned && !foul && this.pocketedThisShot.length > 0) {
-                        turnSwitch = false; // Shooter continues after break pocket
-                    }
-                    if (foul && this.pocketedThisShot.length === 0 && !pocketedCue) {
-                        turnSwitch = true;
-                    }
-
-                    if (turnSwitch && !this.gameOver) {
-                        this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
-                    }
-
-                    // Reset shot tracking
-                    this.pocketedThisShot = [];
-                    this.foulThisShot = false;
+                    if (foul || (!ownPocketed && this.pocketedShot.length > 0 && this.assigned) || (this.pocketedShot
+                            .length === 0 && !foul && !this.assigned && this.pocketedShot.length === 0 && this
+                            .firstContact === null)) switchTurn = true;
+                    if (!this.assigned && !foul && this.pocketedShot.length > 0) switchTurn = false;
+                    if (foul && this.pocketedShot.length === 0 && !pCue) switchTurn = true;
+                    if (switchTurn && !this.gameOver) this.curPlayer = this.curPlayer === 1 ? 2 : 1;
+                    this.pocketedShot = [];
+                    this.foulShot = false;
                     this.firstContact = null;
                     this.cue.visible = true;
                     this.cue.power = 0;
                     this.cue.pullback = 0;
                 }
-
                 executeShot(power, angle) {
-                    if (this.shotInProgress || this.gameOver) return;
-                    this.shotInProgress = true;
-                    this.pocketedThisShot = [];
-                    this.foulThisShot = false;
+                    if (this.shotActive || this.gameOver) return;
+                    this.shotActive = true;
+                    this.pocketedShot = [];
+                    this.foulShot = false;
                     this.firstContact = null;
                     this.cue.visible = false;
-
-                    const shotVec = Vec2.fromAngle(angle).scale(power);
-                    this.cueBall.vel.copy(shotVec);
-                    this.cueBall.spin = 0; // Reset spin
-
-                    this.audio.cueStrike(power);
-                    this.cameraShake = power / MAX_POWER * 3;
-                    this.particles.emit(this.cueBall.pos.x, this.cueBall.pos.y, 8, 'rgb(255,255,240)', power * 0.4, 0.2, 2);
-
-                    // Animate cue strike
+                    this.cueBall.vel.copy(Vec2.fromAngle(angle).scale(power));
+                    this.cueBall.spin = 0;
+                    if (this.audio) this.audio.cueStrike(power);
+                    this.shake = Math.min(4, power / MAX_POWER * 3.5);
+                    this.particles.emit(this.cueBall.pos.x, this.cueBall.pos.y, 10, 'rgb(255,255,240)', power * 0.5, 0.18,
+                        2.5);
                     this.cue.animating = true;
-                    this.cue.animProgress = 0;
-                    this.cue.strikePos = this.cueBall.pos.clone();
+                    this.cue.animT = 0;
                 }
-
                 update(dt) {
-                    if (this.paused || this.gameOver) {
-                        // Still update particles
-                        this.particles.update(dt);
-                        if (this.winCelebration > 0) this.winCelebration -= dt;
-                        if (this.foulMessageTimer > 0) this.foulMessageTimer -= dt;
-                        return;
-                    }
-
-                    // Update physics
+                    if (this.paused || this.gameOver) { this.particles.update(dt); if (this.winCeleb > 0) this
+                        .winCeleb -= dt; if (this.foulTimer > 0) this.foulTimer -= dt; return; }
                     this.physics.update(this.balls, dt);
                     this.particles.update(dt);
-
-                    // Camera shake decay
-                    if (this.cameraShake > 0.01) {
-                        this.cameraShake *= 0.9;
-                        this.cameraShakeX = (Math.random() - 0.5) * this.cameraShake * 8;
-                        this.cameraShakeY = (Math.random() - 0.5) * this.cameraShake * 8;
-                    } else {
-                        this.cameraShake = 0;
-                        this.cameraShakeX = 0;
-                        this.cameraShakeY = 0;
-                    }
-
-                    // Foul message timer
-                    if (this.foulMessageTimer > 0) this.foulMessageTimer -= dt;
-
-                    // Cue animation
-                    if (this.cue.animating) {
-                        this.cue.animProgress += dt;
-                        if (this.cue.animProgress >= this.cue.animDuration) {
-                            this.cue.animating = false;
-                            this.cue.animProgress = 0;
+                    if (this.shake > 0.01) { this.shake *= 0.88;
+                        this.shakeX = (Math.random() - 0.5) * this.shake * 7;
+                        this.shakeY = (Math.random() - 0.5) * this.shake * 7; } else { this.shake = 0;
+                        this.shakeX = 0;
+                        this.shakeY = 0; }
+                    if (this.foulTimer > 0) this.foulTimer -= dt;
+                    if (this.cue.animating) { this.cue.animT += dt; if (this.cue.animT >= this.cue.animDur) { this.cue
+                                .animating = false;
+                            this.cue.animT = 0; } }
+                    if (this.shotActive && !this.firstContact) {
+                        for (const b of this.balls) {
+                            if (b === this.cueBall || b.pocketed) continue;
+                            if (this.cueBall.pos.dist(b.pos) < BALL_R * 2 + 0.8 && this.cueBall.vel.len() > 0.4) { this
+                                    .firstContact = b; break; }
                         }
                     }
-
-                    // Track first contact during shot
-                    if (this.shotInProgress && !this.firstContact) {
-                        for (const ball of this.balls) {
-                            if (ball === this.cueBall || ball.pocketed) continue;
-                            const dist = this.cueBall.pos.dist(ball.pos);
-                            if (dist < BALL_RADIUS * 2 + 1 && this.cueBall.vel.length() > 0.5) {
-                                this.firstContact = ball;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Track pocketed balls during shot
-                    if (this.shotInProgress) {
-                        for (const ball of this.balls) {
-                            if (ball.pocketed && !this.pocketedThisShot.includes(ball) && ball !== this.cueBall) {
-                                this.pocketedThisShot.push(ball);
-                            }
-                        }
-                        // Check first contact legality
+                    if (this.shotActive) {
+                        for (const b of this.balls) { if (b.pocketed && !this.pocketedShot.includes(b) && b !== this
+                                .cueBall) this.pocketedShot.push(b); }
                         if (this.firstContact && this.assigned) {
-                            const playerType = this.currentPlayer === 1 ? this.player1Type : this.player2Type;
-                            const isOwnBall = (playerType === 'solid' && this.firstContact.isSolid) ||
-                                (playerType === 'stripe' && this.firstContact.isStripe);
-                            if (!isOwnBall && !this.firstContact.isEight) {
-                                this.foulThisShot = true;
-                            }
-                            if (this.firstContact.isEight && !this.allPlayerBallsPocketed(this.currentPlayer)) {
-                                this.foulThisShot = true;
-                            }
+                            const pt = this.curPlayer === 1 ? this.p1Type : this.p2Type;
+                            const own = (pt === 'solid' && this.firstContact.isSolid) || (pt === 'stripe' && this
+                                .firstContact.isStripe);
+                            if (!own && !this.firstContact.isEight) this.foulShot = true;
+                            if (this.firstContact.isEight && !this.allPocketed(this.curPlayer)) this.foulShot = true;
                         }
                     }
-
-                    // Check if shot is complete
-                    if (this.shotInProgress && this.physics.allBallsStopped(this.balls)) {
-                        this.shotInProgress = false;
-                        // Check if any ball was pocketed this shot (for cue ball scratch tracking)
-                        if (this.cueBall.pocketed && !this.pocketedThisShot.includes(this.cueBall)) {
-                            this.pocketedThisShot.push(this.cueBall);
-                        }
+                    if (this.shotActive && this.physics.allStopped(this.balls)) {
+                        this.shotActive = false;
+                        if (this.cueBall.pocketed && !this.pocketedShot.includes(this.cueBall)) this.pocketedShot.push(this
+                            .cueBall);
                         this.handleShotResult();
                     }
-
-                    if (this.winCelebration > 0) this.winCelebration -= dt;
-                }
-
-                respotCueBall() {
-                    if (this.shotInProgress) return;
-                    this.cueBall.pocketed = false;
-                    this.cueBall.vel.set(0, 0);
-                    // Place behind head string
-                    const hw = this.table.width / 2;
-                    const hh = this.table.height / 2;
-                    this.cueBall.pos.set(-hw * 0.4, (Math.random() - 0.5) * hh * 0.7);
-                    // Ensure not overlapping
-                    for (const ball of this.balls) {
-                        if (ball === this.cueBall || ball.pocketed) continue;
-                        if (this.cueBall.pos.dist(ball.pos) < BALL_RADIUS * 2 + 1) {
-                            this.cueBall.pos.y += BALL_RADIUS * 3;
-                        }
-                    }
+                    if (this.winCeleb > 0) this.winCeleb -= dt;
                 }
             }
 
-            // --- AI Player ---
+            // ──────────────────────────────────────
+            // AI
+            // ──────────────────────────────────────
             class AIPlayer {
-                constructor(gameManager) {
-                    this.gm = gameManager;
-                    this.difficulty = 'medium';
+                constructor(gm) {
+                    this.gm = gm;
+                    this.diff = 'medium';
                     this.thinking = false;
-                    this.thinkTimer = 0;
-                    this.targetAngle = 0;
-                    this.targetPower = 0;
-                    this.shotReady = false;
+                    this.timer = 0;
+                    this.tAngle = 0;
+                    this.tPower = 0;
+                    this.ready = false;
                 }
-
-                getAccuracy() {
-                    if (this.difficulty === 'easy') return 0.35 + Math.random() * 0.4;
-                    if (this.difficulty === 'medium') return 0.6 + Math.random() * 0.3;
-                    return 0.8 + Math.random() * 0.2; // hard
-                }
-
-                getPowerVariation() {
-                    if (this.difficulty === 'easy') return 0.4 + Math.random() * 0.5;
-                    if (this.difficulty === 'medium') return 0.6 + Math.random() * 0.35;
-                    return 0.75 + Math.random() * 0.25;
-                }
-
-                planShot() {
-                    if (this.gm.shotInProgress || this.gm.gameOver) {
-                        this.shotReady = false;
-                        return;
-                    }
+                accuracy() { return this.diff === 'easy' ? 0.3 + Math.random() * 0.45 : this.diff === 'medium' ? 0.55 + Math
+                        .random() * 0.35 : 0.75 + Math.random() * 0.2; }
+                powVar() { return this.diff === 'easy' ? 0.35 + Math.random() * 0.5 : this.diff === 'medium' ? 0.55 + Math
+                        .random() * 0.38 : 0.7 + Math.random() * 0.28; }
+                plan() {
+                    if (this.gm.shotActive || this.gm.gameOver) { this.ready = false; return; }
                     this.thinking = true;
-                    this.thinkTimer = 0.6 + Math.random() * 0.8;
-                    this.shotReady = false;
-
-                    const playerType = this.gm.currentPlayer === 1 ? this.gm.player1Type : this.gm.player2Type;
-                    const targetBalls = this.gm.balls.filter(b => !b.pocketed && !b.isCue && !b.isEight &&
-                        ((playerType === 'solid' && b.isSolid) || (playerType === 'stripe' && b.isStripe)));
-                    const eightBall = this.gm.balls.find(b => b.number === 8 && !b.pocketed);
-
-                    // If all player balls pocketed, target 8-ball
-                    const targets = targetBalls.length > 0 ? targetBalls : (eightBall ? [eightBall] : []);
-
-                    if (targets.length === 0) {
-                        // No targets - just hit something
-                        const anyBall = this.gm.balls.find(b => !b.pocketed && !b.isCue);
-                        if (anyBall) {
-                            const toTarget = anyBall.pos.clone().sub(this.gm.cueBall.pos);
-                            this.targetAngle = toTarget.angle();
-                            this.targetPower = 8 + Math.random() * 8;
-                        }
+                    this.timer = 0.5 + Math.random() * 0.9;
+                    this.ready = false;
+                    const pt = this.gm.curPlayer === 1 ? this.gm.p1Type : this.gm.p2Type;
+                    const targets = this.gm.balls.filter(b => !b.pocketed && !b.isCue && !b.isEight && ((pt === 'solid' &&
+                        b.isSolid) || (pt === 'stripe' && b.isStripe)));
+                    const eight = this.gm.balls.find(b => b.number === 8 && !b.pocketed);
+                    const targs = targets.length > 0 ? targets : (eight ? [eight] : []);
+                    if (targs.length === 0) {
+                        const anyB = this.gm.balls.find(b => !b.pocketed && !b.isCue);
+                        if (anyB) { const tv = anyB.pos.clone().sub(this.gm.cueBall.pos);
+                            this.tAngle = tv.angle();
+                            this.tPower = 7 + Math.random() * 9; }
                     } else {
-                        // Find best target (closest to a pocket, or easiest angle)
-                        let bestTarget = targets[0];
-                        let bestScore = -Infinity;
-                        for (const target of targets) {
-                            let minPocketDist = Infinity;
-                            for (const pocket of this.gm.table.pockets) {
-                                const dist = target.pos.dist(pocket.pos);
-                                if (dist < minPocketDist) minPocketDist = dist;
-                            }
-                            const distToCue = this.gm.cueBall.pos.dist(target.pos);
-                            const score = -minPocketDist * 2 - distToCue * 0.3 + (Math.random() - 0.5) * 50;
-                            if (score > bestScore) {
-                                bestScore = score;
-                                bestTarget = target;
-                            }
+                        let best = targs[0];
+                        let bestS = -Infinity;
+                        for (const t of targs) {
+                            let minPd = Infinity;
+                            for (const p of this.gm.table.pockets) { const d = t.pos.dist(p.pos); if (d < minPd) minPd =
+                                d; }
+                            const dc = this.gm.cueBall.pos.dist(t.pos);
+                            const sc = -minPd * 2 - dc * 0.25 + (Math.random() - 0.5) * 60;
+                            if (sc > bestS) { bestS = sc;
+                                best = t; }
                         }
-
-                        // Aim at best target, with offset to pocket it
-                        const toTarget = bestTarget.pos.clone().sub(this.gm.cueBall.pos);
-                        let aimAngle = toTarget.angle();
-
-                        // Find nearest pocket to target and adjust aim
-                        let nearestPocket = this.gm.table.pockets[0];
-                        let minDist = bestTarget.pos.dist(nearestPocket.pos);
-                        for (const pocket of this.gm.table.pockets) {
-                            const d = bestTarget.pos.dist(pocket.pos);
-                            if (d < minDist) { minDist = d;
-                                nearestPocket = pocket; }
-                        }
-
-                        // Aim to hit the target toward the pocket
-                        const pocketDir = nearestPocket.pos.clone().sub(bestTarget.pos).normalize();
-                        const ghostBallPos = bestTarget.pos.clone().sub(pocketDir.clone().scale(BALL_RADIUS * 2));
-                        const toGhost = ghostBallPos.sub(this.gm.cueBall.pos);
-                        aimAngle = toGhost.angle();
-
-                        // Add inaccuracy
-                        const accuracy = this.getAccuracy();
-                        aimAngle += (Math.random() - 0.5) * (1 - accuracy) * 0.6;
-
-                        this.targetAngle = aimAngle;
-                        const distFactor = Math.min(1, toTarget.length() / 300);
-                        this.targetPower = (5 + distFactor * 14) * this.getPowerVariation();
-                        this.targetPower = Math.min(MAX_POWER, Math.max(MIN_POWER, this.targetPower));
+                        let np = this.gm.table.pockets[0];
+                        let md = best.pos.dist(np.pos);
+                        for (const p of this.gm.table.pockets) { const d = best.pos.dist(p.pos); if (d < md) { md = d;
+                                np = p; } }
+                        const ghost = best.pos.clone().sub(np.pos.clone().sub(best.pos).norm().scale(BALL_R * 2));
+                        const toGhost = ghost.sub(this.gm.cueBall.pos);
+                        let aim = toGhost.angle();
+                        aim += (Math.random() - 0.5) * (1 - this.accuracy()) * 0.7;
+                        this.tAngle = aim;
+                        this.tPower = Math.min(MAX_POWER, Math.max(MIN_POWER, (5 + Math.min(1, toGhost.len() / 300) * 15) *
+                            this.powVar()));
                     }
                 }
-
-                update(dt) {
-                    if (!this.thinking) return;
-                    this.thinkTimer -= dt;
-                    if (this.thinkTimer <= 0) {
-                        this.thinking = false;
-                        this.shotReady = true;
-                    }
-                }
-
-                getAim() {
-                    return { angle: this.targetAngle, power: this.targetPower, ready: this.shotReady };
-                }
-
-                reset() {
-                    this.thinking = false;
-                    this.shotReady = false;
-                    this.thinkTimer = 0;
-                }
+                update(dt) { if (this.thinking) { this.timer -= dt; if (this.timer <= 0) { this.thinking = false;
+                            this.ready = true; } } }
+                reset() { this.thinking = false;
+                    this.ready = false;
+                    this.timer = 0; }
             }
 
-            // --- Main Game ---
+            // ──────────────────────────────────────
+            // Main Game Class
+            // ──────────────────────────────────────
             class PoolGame {
                 constructor() {
                     this.audio = new AudioManager();
@@ -1695,458 +1288,295 @@
                     this.canvas = canvas;
                     this.ctx = ctx;
                     this.scale = 1;
-                    this.offsetX = 0;
-                    this.offsetY = 0;
-                    this.lastTime = performance.now();
-                    this.mousePos = new Vec2();
-                    this.isDragging = false;
+                    this.ox = 0;
+                    this.oy = 0;
+                    this.lastT = performance.now();
+                    this.mouse = new Vec2();
+                    this.dragging = false;
                     this.dragStart = null;
-                    this.dragCurrent = null;
-                    this.gameMode = 'practice';
-                    this.showPowerBar = true;
-
-                    this.setupCanvas();
-                    this.bindEvents();
+                    this.dragCur = null;
+                    this.mode = 'practice';
+                    this._resize();
+                    this._bindEvents();
                     this.gm.setupRack();
-                    this.showMenu('mainMenu');
-                    this.loop(performance.now());
+                    this._showMenu('mainMenu');
+                    this._loop(performance.now());
                 }
-
-                setupCanvas() {
-                    const resize = () => {
-                        const containerW = container.clientWidth;
-                        const containerH = container.clientHeight;
-                        const tableAspect = (TABLE_WIDTH + RAIL_WIDTH * 2) / (TABLE_HEIGHT + RAIL_WIDTH * 2);
-                        const containerAspect = containerW / containerH;
-                        let w, h;
-                        if (containerAspect > tableAspect) {
-                            h = containerH * 0.92;
-                            w = h * tableAspect;
-                        } else {
-                            w = containerW * 0.92;
-                            h = w / tableAspect;
-                        }
-                        this.canvas.width = w;
-                        this.canvas.height = h;
-                        this.scale = w / (TABLE_WIDTH + RAIL_WIDTH * 2);
-                        this.offsetX = w / 2;
-                        this.offsetY = h / 2;
+                _resize() {
+                    const cw = container.clientWidth;
+                    const ch = container.clientHeight;
+                    const aspect = (TABLE_W + RAIL_W * 2) / (TABLE_H + RAIL_W * 2);
+                    let w, h;
+                    if (cw / ch > aspect) { h = ch * 0.92;
+                        w = h * aspect; } else { w = cw * 0.92;
+                        h = w / aspect; }
+                    this.canvas.width = w;
+                    this.canvas.height = h;
+                    this.scale = w / (TABLE_W + RAIL_W * 2);
+                    this.ox = w / 2;
+                    this.oy = h / 2;
+                }
+                _bindEvents() {
+                    window.addEventListener('resize', () => this._resize());
+                    window.addEventListener('orientationchange', () => setTimeout(() => this._resize(), 200));
+                    const getPos = (e) => {
+                        const r = this.canvas.getBoundingClientRect();
+                        return new Vec2(e.clientX - r.left, e.clientY - r.top);
                     };
-                    resize();
-                    window.addEventListener('resize', resize);
-                    window.addEventListener('orientationchange', () => setTimeout(resize, 200));
-                }
+                    const toWorld = (cp) => new Vec2((cp.x - this.ox) / this.scale, (cp.y - this.oy) / this.scale);
 
-                bindEvents() {
-                    // Mouse events
-                    this.canvas.addEventListener('mousedown', (e) => this.onPointerDown(e));
-                    this.canvas.addEventListener('mousemove', (e) => this.onPointerMove(e));
-                    this.canvas.addEventListener('mouseup', (e) => this.onPointerUp(e));
-                    this.canvas.addEventListener('mouseleave', () => this.onPointerUp(null));
+                    const onDown = (e) => {
+                        if (!e || this.gm.shotActive || this.gm.gameOver || this.gm.paused) return;
+                        if (this.mode === 'ai' && this.gm.curPlayer === 2) return;
+                        this.dragging = true;
+                        this.dragStart = getPos(e);
+                        this.dragCur = this.dragStart.clone();
+                        this.gm.aiming = true;
+                    };
+                    const onMove = (e) => {
+                        if (!e) return;
+                        this.mouse = getPos(e);
+                        if (this.dragging) {
+                            this.dragCur = this.mouse.clone();
+                            const cueWorld = this.gm.cueBall.pos;
+                            const cueCanv = new Vec2(cueWorld.x * this.scale + this.ox, cueWorld.y * this.scale + this
+                                .oy);
+                            const dv = cueCanv.clone().sub(this.dragCur);
+                            const dist = dv.len();
+                            this.gm.cue.angle = dv.angle();
+                            this.gm.cue.power = Math.min(MAX_POWER, Math.max(0, dist / (this.scale * 7)));
+                            this.gm.cue.pullback = Math.min(90, dist * 0.65);
+                            this.gm.cue.visible = true;
+                        } else if (!this.gm.shotActive && !this.gm.gameOver && !this.gm.paused) {
+                            const wm = toWorld(this.mouse);
+                            const tv = wm.sub(this.gm.cueBall.pos);
+                            if (tv.len() > 0.001) this.gm.cue.angle = tv.angle();
+                            this.gm.cue.power = 0;
+                            this.gm.cue.pullback = 0;
+                        }
+                    };
+                    const onUp = (e) => {
+                        if (!this.dragging) return;
+                        this.dragging = false;
+                        this.gm.aiming = false;
+                        const power = this.gm.cue.power;
+                        const angle = this.gm.cue.angle;
+                        if (power > MIN_POWER && !this.gm.shotActive && !this.gm.gameOver) {
+                            if (this.mode === 'ai' && this.gm.curPlayer === 2) return;
+                            this.gm.executeShot(power, angle);
+                            this.ai.reset();
+                            this.gm.cue.pullback = 0;
+                            this.gm.cue.power = 0;
+                        }
+                        this.dragStart = null;
+                        this.dragCur = null;
+                    };
 
-                    // Touch events
-                    this.canvas.addEventListener('touchstart', (e) => {
-                        e.preventDefault();
-                        this.onPointerDown(e.touches[0]);
-                    }, { passive: false });
-                    this.canvas.addEventListener('touchmove', (e) => {
-                        e.preventDefault();
-                        this.onPointerMove(e.touches[0]);
-                    }, { passive: false });
-                    this.canvas.addEventListener('touchend', (e) => {
-                        e.preventDefault();
-                        this.onPointerUp(null);
-                    });
-                    this.canvas.addEventListener('touchcancel', () => this.onPointerUp(null));
+                    this.canvas.addEventListener('mousedown', (e) => onDown(e));
+                    this.canvas.addEventListener('mousemove', (e) => onMove(e));
+                    this.canvas.addEventListener('mouseup', (e) => onUp(e));
+                    this.canvas.addEventListener('mouseleave', () => { if (this.dragging) onUp(null); });
+                    this.canvas.addEventListener('touchstart', (e) => { e.preventDefault();
+                        onDown(e.touches[0]); }, { passive: false });
+                    this.canvas.addEventListener('touchmove', (e) => { e.preventDefault();
+                        onMove(e.touches[0]); }, { passive: false });
+                    this.canvas.addEventListener('touchend', (e) => { e.preventDefault();
+                        onUp(null); });
+                    this.canvas.addEventListener('touchcancel', () => { if (this.dragging) onUp(null); });
 
-                    // Keyboard
                     window.addEventListener('keydown', (e) => {
                         if (e.key === 'Escape' || e.key === 'p') {
                             if (this.gm.gameOver) return;
-                            if (this.gm.paused) this.resumeGame();
-                            else this.pauseGame();
-                        }
-                        if (e.key === ' ' && !this.gm.shotInProgress && !this.gm.gameOver && !this.gm.paused) {
-                            e.preventDefault();
-                            // Quick shot at current aim
-                            if (this.gm.cue.power > 0.5) {
-                                this.gm.executeShot(this.gm.cue.power, this.gm.cue.angle);
-                                this.ai.reset();
-                            }
+                            this.gm.paused ? this._resume() : this._pause();
                         }
                     });
 
                     // Button bindings
-                    document.getElementById('btnPractice')?.addEventListener('click', () => this.startGame('practice'));
-                    document.getElementById('btnPvP')?.addEventListener('click', () => this.startGame('pvp'));
-                    document.getElementById('btnAI')?.addEventListener('click', () => this.startGame('ai'));
-                    document.getElementById('btnSettings')?.addEventListener('click', () => this.showMenu(
+                    document.getElementById('btnPractice').addEventListener('click', () => this._start('practice'));
+                    document.getElementById('btnPvP').addEventListener('click', () => this._start('pvp'));
+                    document.getElementById('btnAI').addEventListener('click', () => this._start('ai'));
+                    document.getElementById('btnSettings').addEventListener('click', () => this._showMenu(
                         'settingsMenu'));
-                    document.getElementById('btnSettingsBack')?.addEventListener('click', () => this.showMenu(
-                    'mainMenu'));
-                    document.getElementById('btnResume')?.addEventListener('click', () => this.resumeGame());
-                    document.getElementById('btnRestart')?.addEventListener('click', () => this.restartGame());
-                    document.getElementById('btnQuit')?.addEventListener('click', () => this.quitToMenu());
-                    document.getElementById('btnPlayAgain')?.addEventListener('click', () => this.restartGame());
-                    document.getElementById('btnGoMenu')?.addEventListener('click', () => this.quitToMenu());
-
-                    // Settings
-                    document.getElementById('aiDifficulty')?.addEventListener('change', (e) => {
-                        this.ai.difficulty = e.target.value;
-                        this.gm.aiDifficulty = e.target.value;
-                    });
-                    document.getElementById('soundToggle')?.addEventListener('change', (e) => {
-                        this.audio.enabled = e.target.checked;
-                        this.gm.soundEnabled = e.target.checked;
-                        if (!e.target.checked) this.audio.stopMusic();
-                    });
-                    document.getElementById('musicToggle')?.addEventListener('change', (e) => {
-                        this.audio.musicEnabled = e.target.checked;
-                        this.gm.musicEnabled = e.target.checked;
-                        if (e.target.checked) this.audio.startMusic();
-                        else this.audio.stopMusic();
-                    });
-                    document.getElementById('guideToggle')?.addEventListener('change', (e) => {
-                        this.gm.showGuide = e.target.checked;
-                    });
-                    document.getElementById('tableTheme')?.addEventListener('change', (e) => {
-                        this.gm.table.theme = e.target.value;
-                    });
+                    document.getElementById('btnSettingsBack').addEventListener('click', () => this._showMenu(
+                        'mainMenu'));
+                    document.getElementById('btnResume').addEventListener('click', () => this._resume());
+                    document.getElementById('btnRestart').addEventListener('click', () => this._restart());
+                    document.getElementById('btnQuit').addEventListener('click', () => this._quit());
+                    document.getElementById('btnPlayAgain').addEventListener('click', () => this._restart());
+                    document.getElementById('btnGoMenu').addEventListener('click', () => this._quit());
+                    document.getElementById('aiDifficulty').addEventListener('change', (e) => { this.ai.diff = e.target
+                            .value;
+                        this.gm.aiDiff = e.target.value; });
+                    document.getElementById('soundToggle').addEventListener('change', (e) => { this.audio.enabled = e
+                            .target.checked; if (!e.target.checked) this.audio.stopMusic(); });
+                    document.getElementById('musicToggle').addEventListener('change', (e) => { this.audio.musicOn = e
+                            .target.checked; e.target.checked ? this.audio.startMusic() : this.audio.stopMusic(); });
+                    document.getElementById('guideToggle').addEventListener('change', (e) => { this.gm.showGuide = e
+                            .target.checked; });
+                    document.getElementById('tableTheme').addEventListener('change', (e) => { this.gm.table.theme = e
+                            .target.value; });
                 }
-
-                getCanvasPos(e) {
-                    const rect = this.canvas.getBoundingClientRect();
-                    return new Vec2(e.clientX - rect.left, e.clientY - rect.top);
-                }
-
-                tableToWorld(canvasPos) {
-                    return new Vec2(
-                        (canvasPos.x - this.offsetX) / this.scale,
-                        (canvasPos.y - this.offsetY) / this.scale
-                    );
-                }
-
-                onPointerDown(e) {
-                    if (!e || this.gm.shotInProgress || this.gm.gameOver || this.gm.paused) return;
-                    if (this.gameMode === 'ai' && this.gm.currentPlayer === 2) return;
-                    this.isDragging = true;
-                    this.dragStart = this.getCanvasPos(e);
-                    this.dragCurrent = this.dragStart.clone();
-                    this.gm.aiming = true;
-                }
-
-                onPointerMove(e) {
-                    if (!e) return;
-                    this.mousePos = this.getCanvasPos(e);
-                    if (this.isDragging) {
-                        this.dragCurrent = this.mousePos.clone();
-                        // Calculate aim from drag
-                        const worldCue = this.gm.cueBall.pos.clone();
-                        const canvasCue = new Vec2(
-                            worldCue.x * this.scale + this.offsetX,
-                            worldCue.y * this.scale + this.offsetY
-                        );
-                        const dragVec = canvasCue.clone().sub(this.dragCurrent);
-                        const dist = dragVec.length();
-                        this.gm.cue.angle = dragVec.angle();
-                        this.gm.cue.power = Math.min(MAX_POWER, Math.max(0, dist / (this.scale * 8)));
-                        this.gm.cue.pullback = Math.min(80, dist * 0.7);
-                        this.gm.cue.visible = true;
-                    } else if (!this.gm.shotInProgress && !this.gm.gameOver && !this.gm.paused) {
-                        // Show aim line toward mouse
-                        const worldMouse = this.tableToWorld(this.mousePos);
-                        const toMouse = worldMouse.sub(this.gm.cueBall.pos);
-                        if (toMouse.length() > 0.001) {
-                            this.gm.cue.angle = toMouse.angle();
-                        }
-                        this.gm.cue.power = 0;
-                        this.gm.cue.pullback = 0;
-                    }
-                }
-
-                onPointerUp(e) {
-                    if (!this.isDragging) return;
-                    this.isDragging = false;
-                    this.gm.aiming = false;
-                    const power = this.gm.cue.power;
-                    const angle = this.gm.cue.angle;
-                    if (power > MIN_POWER && !this.gm.shotInProgress && !this.gm.gameOver) {
-                        if (this.gameMode === 'ai' && this.gm.currentPlayer === 2) return;
-                        this.gm.executeShot(power, angle);
-                        this.ai.reset();
-                        this.gm.cue.pullback = 0;
-                        this.gm.cue.power = 0;
-                    }
-                    this.dragStart = null;
-                    this.dragCurrent = null;
-                }
-
-                startGame(mode) {
-                    this.gameMode = mode;
-                    this.gm.gameMode = mode;
+                _start(mode) {
+                    this.mode = mode;
+                    this.gm.mode = mode;
                     this.gm.setupRack();
                     this.ai.reset();
-                    this.ai.difficulty = document.getElementById('aiDifficulty')?.value || 'medium';
-                    this.gm.aiDifficulty = this.ai.difficulty;
+                    this.ai.diff = document.getElementById('aiDifficulty')?.value || 'medium';
+                    this.gm.aiDiff = this.ai.diff;
                     this.gm.paused = false;
                     this.gm.gameOver = false;
-                    this.gm.currentPlayer = 1;
+                    this.gm.curPlayer = 1;
                     this.gm.cue.visible = true;
                     this.gm.cue.power = 0;
                     this.gm.cue.pullback = 0;
-                    this.gm.foulMessage = '';
-                    this.gm.foulMessageTimer = 0;
-                    this.hideAllMenus();
-                    this.updateHUD();
+                    this.gm.foulMsg = '';
+                    this.gm.foulTimer = 0;
+                    this._hideAll();
+                    this._updateHUD();
                     document.getElementById('power-indicator').style.display = 'block';
-                    if (this.audio.musicEnabled) this.audio.startMusic();
+                    if (this.audio.musicOn) this.audio.startMusic();
                 }
-
-                pauseGame() {
-                    if (this.gm.gameOver) return;
+                _pause() { if (this.gm.gameOver) return;
                     this.gm.paused = true;
-                    document.getElementById('pauseMenu').classList.remove('hidden');
-                }
-
-                resumeGame() {
-                    this.gm.paused = false;
-                    this.hideAllMenus();
-                }
-
-                restartGame() {
-                    this.gm.setupRack();
-                    this.ai.reset();
-                    this.gm.paused = false;
-                    this.gm.gameOver = false;
-                    this.gm.currentPlayer = 1;
-                    this.gm.cue.visible = true;
-                    this.gm.cue.power = 0;
-                    this.gm.cue.pullback = 0;
-                    this.gm.foulMessage = '';
-                    this.gm.foulMessageTimer = 0;
-                    this.gm.winCelebration = 0;
-                    this.hideAllMenus();
-                    this.updateHUD();
-                }
-
-                quitToMenu() {
-                    this.gm.paused = false;
+                    document.getElementById('pauseMenu').classList.remove('hidden'); }
+                _resume() { this.gm.paused = false;
+                    this._hideAll(); }
+                _restart() { this._start(this.mode); }
+                _quit() { this.gm.paused = false;
                     this.gm.gameOver = false;
                     this.gm.cue.visible = false;
                     this.audio.stopMusic();
-                    this.hideAllMenus();
-                    this.showMenu('mainMenu');
-                    document.getElementById('power-indicator').style.display = 'none';
-                }
-
-                showMenu(id) {
-                    this.hideAllMenus();
-                    const el = document.getElementById(id);
-                    if (el) el.classList.remove('hidden');
-                }
-
-                hideAllMenus() {
-                    ['mainMenu', 'settingsMenu', 'pauseMenu', 'gameOverMenu'].forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) el.classList.add('hidden');
-                    });
-                }
-
-                updateHUD() {
-                    const p1Type = this.gm.player1Type || 'solid';
-                    const p2Type = this.gm.player2Type || 'stripe';
-                    const p1Icon = p1Type === 'solid' ? '🔵' : '🟡';
-                    const p2Icon = p2Type === 'solid' ? '🔵' : '🟡';
-
+                    this._hideAll();
+                    this._showMenu('mainMenu');
+                    document.getElementById('power-indicator').style.display = 'none'; }
+                _showMenu(id) { this._hideAll();
+                    document.getElementById(id).classList.remove('hidden'); }
+                _hideAll() { ['mainMenu', 'settingsMenu', 'pauseMenu', 'gameOverMenu'].forEach(id => document
+                        .getElementById(id).classList.add('hidden')); }
+                _updateHUD() {
                     document.getElementById('hudP1').textContent =
-                        `${p1Icon} P1: ${this.gm.scores[1] || 0}`;
+                        `${this.gm.p1Type==='solid'?'🔵':'🟡'} P1: ${this.gm.scores[1]}`;
                     document.getElementById('hudP2').textContent =
-                        `P2: ${this.gm.scores[2] || 0} ${p2Icon === '🔵' ? '🔴' : '🔵'}`;
-                    document.getElementById('hudTurn').textContent =
-                        `▶ Player ${this.gm.currentPlayer}`;
-
-                    const turnEl = document.getElementById('hudTurn');
-                    turnEl.classList.toggle('turn', !this.gm.gameOver);
-                    const foulEl = document.getElementById('hudFoul');
-                    if (this.gm.foulMessageTimer > 0 && this.gm.foulMessage) {
-                        foulEl.style.display = 'inline';
-                        foulEl.textContent = '⚠ ' + this.gm.foulMessage;
-                    } else {
-                        foulEl.style.display = 'none';
-                    }
+                        `P2: ${this.gm.scores[2]} ${this.gm.p2Type==='solid'?'🔵':'🟡'}`;
+                    document.getElementById('hudTurn').textContent = `▶ Player ${this.gm.curPlayer}`;
+                    const fe = document.getElementById('hudFoul');
+                    if (this.gm.foulTimer > 0 && this.gm.foulMsg) { fe.style.display = 'inline';
+                        fe.textContent = '⚠ ' + this.gm.foulMsg; } else fe.style.display = 'none';
                 }
-
-                drawAimGuide() {
-                    if (!this.gm.showGuide || !this.gm.cue.visible || this.gm.shotInProgress || this.gm.gameOver) return;
-                    if (this.gm.cue.power < 0.3 && !this.isDragging && !this.gm.aiming) return;
-                    if (this.gameMode === 'ai' && this.gm.currentPlayer === 2 && !this.isDragging) return;
-
-                    const angle = this.gm.cue.angle;
-                    const cueWorld = this.gm.cueBall.pos;
-                    const sx = cueWorld.x * this.scale + this.offsetX;
-                    const sy = cueWorld.y * this.scale + this.offsetY;
-
-                    // Dotted aim line
-                    const lineLen = 250 * this.scale;
-                    const endX = sx + Math.cos(angle) * lineLen;
-                    const endY = sy + Math.sin(angle) * lineLen;
-
+                _drawGuide() {
+                    if (!this.gm.showGuide || !this.gm.cue.visible || this.gm.shotActive || this.gm.gameOver) return;
+                    if (this.gm.cue.power < 0.2 && !this.dragging && !this.gm.aiming) return;
+                    if (this.mode === 'ai' && this.gm.curPlayer === 2 && !this.dragging) return;
+                    const a = this.gm.cue.angle;
+                    const cw = this.gm.cueBall.pos;
+                    const sx = cw.x * this.scale + this.ox;
+                    const sy = cw.y * this.scale + this.oy;
+                    const len = 280 * this.scale;
                     this.ctx.save();
-                    this.ctx.setLineDash([6, 8]);
-                    this.ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-                    this.ctx.lineWidth = 1.5;
+                    this.ctx.setLineDash([5, 7]);
+                    this.ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+                    this.ctx.lineWidth = 1.6;
                     this.ctx.beginPath();
                     this.ctx.moveTo(sx, sy);
-                    this.ctx.lineTo(endX, endY);
+                    this.ctx.lineTo(sx + Math.cos(a) * len, sy + Math.sin(a) * len);
                     this.ctx.stroke();
                     this.ctx.setLineDash([]);
-
-                    // Power ring around cue ball
-                    if (this.gm.cue.power > 0.2) {
-                        const powerFrac = this.gm.cue.power / MAX_POWER;
-                        this.ctx.strokeStyle = `rgba(255,${200-powerFrac*150},${50-powerFrac*40},0.7)`;
-                        this.ctx.lineWidth = 2 + powerFrac * 3;
+                    if (this.gm.cue.power > 0.15) {
+                        const frac = this.gm.cue.power / MAX_POWER;
+                        this.ctx.strokeStyle =
+                            `rgba(255,${200-frac*150},${50-frac*40},0.7)`;
+                        this.ctx.lineWidth = 2 + frac * 3;
                         this.ctx.beginPath();
-                        this.ctx.arc(sx, sy, BALL_RADIUS * this.scale + 4 + powerFrac * 8, 0, Math.PI * 2 * powerFrac);
+                        this.ctx.arc(sx, sy, BALL_R * this.scale + 4 + frac * 10, 0, Math.PI * 2 * frac);
                         this.ctx.stroke();
                     }
                     this.ctx.restore();
                 }
-
-                drawWinCelebration() {
-                    if (this.gm.winCelebration <= 0) return;
-                    const alpha = Math.min(1, this.gm.winCelebration / 2);
-                    this.ctx.fillStyle = `rgba(255,215,0,${alpha*0.3})`;
+                _drawCelebration() {
+                    if (this.gm.winCeleb <= 0) return;
+                    const a = Math.min(1, this.gm.winCeleb / 2.5);
+                    this.ctx.fillStyle = `rgba(255,215,0,${a*0.3})`;
                     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-                    // Sparkle particles
-                    for (let i = 0; i < 30; i++) {
-                        const x = Math.random() * this.canvas.width;
-                        const y = Math.random() * this.canvas.height;
-                        const sz = Math.random() * 4 + 1;
-                        this.ctx.fillStyle = `rgba(255,240,200,${alpha*Math.random()})`;
+                    for (let i = 0; i < 35; i++) {
+                        this.ctx.fillStyle =
+                            `rgba(255,240,200,${a*Math.random()})`;
                         this.ctx.beginPath();
-                        this.ctx.arc(x, y, sz, 0, Math.PI * 2);
+                        this.ctx.arc(Math.random() * this.canvas.width, Math.random() * this.canvas.height, Math.random() *
+                            4 + 1, 0, Math.PI * 2);
                         this.ctx.fill();
                     }
-
-                    this.ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                    this.ctx.font = `${36*this.scale}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
+                    this.ctx.fillStyle = `rgba(255,255,255,${a})`;
+                    this.ctx.font = `bold ${34*this.scale}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
                     this.ctx.textAlign = 'center';
-                    this.ctx.fillText('🏆 Player ' + this.gm.winner + ' Wins! 🏆', this.canvas.width / 2, this.canvas
-                        .height / 2 - 20);
+                    this.ctx.fillText('🏆 Player ' + this.gm.winner + ' Wins! 🏆', this.canvas.width / 2, this.canvas.height /
+                        2 - 15);
                 }
-
-                render() {
+                _render() {
                     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-                    // Apply camera shake
-                    const shakeX = this.gm.cameraShakeX;
-                    const shakeY = this.gm.cameraShakeY;
-                    const ox = this.offsetX + shakeX;
-                    const oy = this.offsetY + shakeY;
-
-                    // Draw table
-                    this.gm.table.draw(this.ctx, this.scale, ox, oy);
-
-                    // Draw particles (under balls)
-                    this.gm.particles.draw(this.ctx, this.scale, ox, oy);
-
-                    // Draw balls
-                    for (const ball of this.gm.balls) {
-                        ball.draw(this.ctx, this.scale, ox, oy);
+                    const sx = this.ox + this.gm.shakeX;
+                    const sy = this.oy + this.gm.shakeY;
+                    this.gm.table.draw(this.ctx, this.scale, sx, sy);
+                    this.gm.particles.draw(this.ctx, this.scale, sx, sy);
+                    for (const b of this.gm.balls) b.draw(this.ctx, this.scale, sx, sy);
+                    this._drawGuide();
+                    if (this.gm.cue.visible && !this.gm.shotActive && !this.gm.gameOver) {
+                        if (!(this.mode === 'ai' && this.gm.curPlayer === 2))
+                            this.gm.cue.draw(this.ctx, this.scale, sx, sy, this.gm.cueBall.pos);
                     }
-
-                    // Draw aim guide
-                    this.drawAimGuide();
-
-                    // Draw cue stick
-                    if (this.gm.cue.visible && !this.gm.shotInProgress && !this.gm.gameOver) {
-                        if (!(this.gameMode === 'ai' && this.gm.currentPlayer === 2)) {
-                            this.gm.cue.draw(this.ctx, this.scale, ox, oy, this.gm.cueBall.pos);
-                        }
-                    }
-
-                    // Win celebration
-                    this.drawWinCelebration();
-
-                    // Foul message overlay
-                    if (this.gm.foulMessageTimer > 0 && this.gm.foulMessage) {
-                        const alpha = Math.min(1, this.gm.foulMessageTimer);
-                        this.ctx.fillStyle = `rgba(200,40,20,${alpha*0.8})`;
-                        this.ctx.font = `bold ${18*this.scale}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
+                    this._drawCelebration();
+                    if (this.gm.foulTimer > 0 && this.gm.foulMsg) {
+                        const a = Math.min(1, this.gm.foulTimer);
+                        this.ctx.fillStyle = `rgba(200,40,20,${a*0.8})`;
+                        this.ctx.font = `bold ${17*this.scale}px "Segoe UI","Helvetica Neue",Arial,sans-serif`;
                         this.ctx.textAlign = 'center';
-                        this.ctx.fillText(this.gm.foulMessage, this.canvas.width / 2, this.canvas.height * 0.15);
+                        this.ctx.fillText(this.gm.foulMsg, this.canvas.width / 2, this.canvas.height * 0.14);
                     }
-
-                    // Update power bar
-                    const powerFrac = this.gm.cue.power / MAX_POWER;
-                    document.getElementById('powerBarFill').style.height = (powerFrac * 100) + '%';
+                    document.getElementById('powerBarFill').style.height = (this.gm.cue.power / MAX_POWER * 100) + '%';
                 }
-
-                loop(timestamp) {
-                    const dt = Math.min(0.05, (timestamp - this.lastTime) / 1000);
-                    this.lastTime = timestamp;
-
-                    // AI logic
-                    if (this.gameMode === 'ai' && this.gm.currentPlayer === 2 &&
-                        !this.gm.shotInProgress && !this.gm.gameOver && !this.gm.paused) {
-                        if (!this.ai.thinking && !this.ai.shotReady) {
-                            this.ai.planShot();
-                        }
+                _loop(ts) {
+                    const dt = Math.min(0.05, (ts - this.lastT) / 1000);
+                    this.lastT = ts;
+                    if (this.mode === 'ai' && this.gm.curPlayer === 2 && !this.gm.shotActive && !this.gm.gameOver && !this
+                        .gm.paused) {
+                        if (!this.ai.thinking && !this.ai.ready) this.ai.plan();
                         this.ai.update(dt);
-                        if (this.ai.shotReady && !this.gm.shotInProgress) {
-                            const aim = this.ai.getAim();
-                            if (aim.ready && aim.power > MIN_POWER) {
-                                this.gm.cue.angle = aim.angle;
-                                this.gm.cue.power = aim.power;
-                                this.gm.cue.pullback = aim.power * 3;
-                                // Brief delay then shoot
-                                setTimeout(() => {
-                                    if (!this.gm.shotInProgress && !this.gm.gameOver && this.ai.shotReady) {
-                                        this.gm.executeShot(aim.power, aim.angle);
+                        if (this.ai.ready && !this.gm.shotActive) {
+                            const { tAngle, tPower } = this.ai;
+                            if (tPower > MIN_POWER) {
+                                this.gm.cue.angle = tAngle;
+                                this.gm.cue.power = tPower;
+                                this.gm.cue.pullback = tPower * 3;
+                                const shoot = () => {
+                                    if (!this.gm.shotActive && !this.gm.gameOver && this.ai.ready) {
+                                        this.gm.executeShot(tPower, tAngle);
                                         this.ai.reset();
                                         this.gm.cue.pullback = 0;
                                         this.gm.cue.power = 0;
                                     }
-                                }, 300 + Math.random() * 400);
-                                this.ai.shotReady = false;
+                                };
+                                setTimeout(shoot, 280 + Math.random() * 350);
+                                this.ai.ready = false;
                             }
                         }
                     }
-
-                    // Update game
                     this.gm.update(dt);
-
-                    // Check game over
-                    if (this.gm.gameOver && !document.getElementById('gameOverMenu').classList.contains('hidden') ===
-                        false) {
-                        if (this.gm.winCelebration <= 0.5 && document.getElementById('gameOverMenu').classList
-                            .contains('hidden')) {
-                            document.getElementById('gameOverTitle').textContent =
-                                this.gm.winner === 1 ? '🏆 Player 1 Wins!' : '🏆 Player 2 Wins!';
-                            document.getElementById('gameOverMsg').textContent =
-                                this.gm.gameMode === 'ai' && this.gm.winner === 2 ?
-                                'The AI has defeated you!' : 'Great game!';
-                            document.getElementById('gameOverMenu').classList.remove('hidden');
-                        }
+                    if (this.gm.gameOver && document.getElementById('gameOverMenu').classList.contains('hidden') && this.gm
+                        .winCeleb < 0.3) {
+                        document.getElementById('gameOverTitle').textContent = this.gm.winner === 1 ?
+                            '🏆 Player 1 Wins!' : '🏆 Player 2 Wins!';
+                        document.getElementById('gameOverMsg').textContent = this.mode === 'ai' && this.gm.winner === 2 ?
+                            'The AI defeated you!' : 'Great game!';
+                        document.getElementById('gameOverMenu').classList.remove('hidden');
                     }
-
-                    this.updateHUD();
-                    this.render();
-
-                    requestAnimationFrame((t) => this.loop(t));
+                    this._updateHUD();
+                    this._render();
+                    requestAnimationFrame((t) => this._loop(t));
                 }
             }
 
-            // --- Initialize ---
             const game = new PoolGame();
-            console.log('🎱 8-Ball Pool - Professional HTML5 Edition');
-            console.log('   Drag to aim and shoot | ESC to pause | Supports touch & mouse');
-            console.log('   Game modes: Practice | PvP | AI (Easy/Medium/Hard)');
-            console.log('   Built with pure JavaScript & Canvas API');
-
-            // Expose for debugging
+            console.log('🎱 8-Ball Pool ready — drag from the cue ball to aim and shoot!');
+            console.log('   ESC to pause | Works with mouse & touch');
             window.poolGame = game;
         })();
     </script>
